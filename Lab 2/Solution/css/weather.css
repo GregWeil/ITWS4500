@@ -1,0 +1,10 @@
+/* weather.css */
+
+.temperature {
+	font-size: 24pt;
+}
+
+.weatherItems img {
+	margin-right: 4pt;
+	width: 20pt;
+}
