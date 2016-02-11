@@ -1,0 +1,8 @@
+Respository
+https://github.com/superfeed
+
+Backend API
+http://superfeedapi.azurewebsites.net/
+
+Frontend URL
+http://superfeed.xyz/
