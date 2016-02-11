@@ -1,0 +1,22 @@
+/* feed.css */
+
+#tweets {
+	/* Appear behind the title */
+	z-index: -1;
+}
+
+.tweet .tweetImage {
+	/* Proper alignment when the image doesn't load */
+	width: 48px;
+}
+
+.tweet .panel-footer {
+	/* Smaller footer */
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.tweet p {
+	/* Remove the empty space below text */
+	margin: 0;
+}
