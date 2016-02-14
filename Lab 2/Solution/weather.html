@@ -25,13 +25,30 @@
 			<h1><span class="location">Your</span> Weather</h1>
 		</div>
 		
-		<div class="panel panel-default">
-			<div class="panel-heading">Current Weather</div>
-			<div class="panel-body">
-				<span class="temperature"><span class="temp"></span>&deg;F</span> <br/>
-				<small>min <span class="tempMin"></span>&deg;F, max <span class="tempMax"></span>&deg;F</small>
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="panel panel-default">
+					<div class="panel-heading">Current Weather</div>
+					<div class="panel-body">
+						<span class="temperature"><span class="temp"></span>&deg;F</span> <br/>
+						<small>min <span class="tempMin"></span>&deg;F, max <span class="tempMax"></span>&deg;F</small>
+					</div>
+					<ul class="list-group weatherItems"></ul>
+				</div>
 			</div>
-			<ul class="list-group weatherItems"></ul>
+			
+			<div class="col-sm-8">
+				<div class="panel panel-default">
+					<div class="panel-heading">Forecast</div>
+					<table class="table">
+						<tr>
+							<td>Day</td>
+							<td>High</td>
+							<td>Low</td>
+						</tr>
+					</table>
+				</div>
+			</div>
 		</div>
 	</div>
 
