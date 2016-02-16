@@ -11,4 +11,7 @@
 
 .forecast img {
 	height: 14pt;
+	transform: scale(1.5);
+	margin-left: 6pt;
+	margin-right: 6pt;
 }

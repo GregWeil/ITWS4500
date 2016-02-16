@@ -5,6 +5,8 @@ var apiURL = "http://api.openweathermap.org/data/2.5/";
 var apiIcon = "http://openweathermap.org/img/w/";
 var apiID = "9410341da379924e6b3b11c8837a7aac";
 
+var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
 function loadWeather(position) {
 	var lat = position.coords.latitude.toString();
 	var lon = position.coords.longitude.toString();
@@ -31,19 +33,18 @@ function loadWeather(position) {
 	.then(function () {
 		//Get forecast
 		return $.get(apiURL+"forecast/daily?lat="+lat+"&lon="+lon
-			+"&cnt=5&units=imperial"+"&appid="+apiID)
+			+"&cnt=14&units=imperial"+"&appid="+apiID)
 		.done(function (data) {
 			console.log(data);
+			var date = new Date();
 			for (var i = 0; i < data.list.length; ++i) {
 				var weather = data.list[i];
-				var icons = $("<td>");
-				for (var j = 0; j < weather.weather.length; ++j) {
-					icons.append($('<img src="'+apiIcon+weather.weather[j].icon+'.png"/>'));
+				var label = $("<td>").text(days[(date.getDay()+i+1) % days.length]);
+				if (weather.weather.length > 0) {
+					label.prepend($('<img src="'+apiIcon+weather.weather[0].icon+'.png"/>'));
 				}
-				$(".forecast").append($("<tr>")
-					.append($("<td>").text("tomorrow"))
+				$(".forecast").append($("<tr>").append($(label))
 					.append($("<td>").text(weather.temp.day+"°F"))
-					.append(icons)
 				);
 			}
 		});
