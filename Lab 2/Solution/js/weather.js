@@ -24,11 +24,14 @@ function loadWeather(position) {
 			$(".tempMax").text(data.main.temp_max);
 			for (var i = 0; i < data.weather.length; ++i) {
 				$(".weatherItems").append(
-					$('<li class="list-group-item"></li>').append(
+					$('<li class="list-group-item">').append(
 						$('<img src="'+apiIcon+data.weather[i].icon+'.png"/>')
-					).append($("<span></span>").text(data.weather[i].main))
-				);
+					).append($("<span></span>").text(data.weather[i].description))
+				)
 			}
+			$(".weatherItems")
+			.append($('<li class="list-group-item">').text(data.wind.speed+"mph wind"))
+			.append($('<li class="list-group-item">').text(data.main.humidity+"% humidity"));
 		});
 	})
 	.then(function () {

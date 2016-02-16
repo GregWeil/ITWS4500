@@ -11,6 +11,7 @@
 
 .forecast img {
 	height: 14pt;
+	/* Scaling so it fits nicely in the table */
 	transform: scale(1.5);
 	margin-left: 6pt;
 	margin-right: 6pt;
