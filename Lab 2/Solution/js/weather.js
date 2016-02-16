@@ -6,6 +6,7 @@ var apiIcon = "http://openweathermap.org/img/w/";
 var apiID = "9410341da379924e6b3b11c8837a7aac";
 
 var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 function loadWeather(position) {
 	var lat = position.coords.latitude.toString();
@@ -33,18 +34,27 @@ function loadWeather(position) {
 	.then(function () {
 		//Get forecast
 		return $.get(apiURL+"forecast/daily?lat="+lat+"&lon="+lon
-			+"&cnt=14&units=imperial"+"&appid="+apiID)
+			+"&cnt=10&units=imperial"+"&appid="+apiID)
 		.done(function (data) {
 			console.log(data);
-			var date = new Date();
 			for (var i = 0; i < data.list.length; ++i) {
 				var weather = data.list[i];
-				var label = $("<td>").text(days[(date.getDay()+i+1) % days.length]);
+				var label = $("<td>");
+				if (i == 0) {
+					label.text("Tomorrow");
+				} else if (i < 5) {
+					label.text(days[((new Date()).getDay()+i+1) % days.length]);
+				} else {
+					var date = new Date();
+					date.setDate(date.getDate() + i + 1);
+					label.text(months[date.getMonth()]+" "+date.getDate());
+				}
 				if (weather.weather.length > 0) {
 					label.prepend($('<img src="'+apiIcon+weather.weather[0].icon+'.png"/>'));
 				}
 				$(".forecast").append($("<tr>").append($(label))
-					.append($("<td>").text(weather.temp.day+"°F"))
+					.append($("<td>").text(Math.round(weather.temp.day)+"°F day"))
+					.append($("<td>").text(Math.round(weather.temp.night)+"°F night"))
 				);
 			}
 		});
