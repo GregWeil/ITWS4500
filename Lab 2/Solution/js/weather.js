@@ -17,7 +17,7 @@ function loadWeather(position) {
 		return $.get(apiURL+"weather?lat="+lat+"&lon="+lon
 			+"&units=imperial"+"&appid="+apiID)
 		.done(function (data) {
-			console.log(data);
+			//console.log(data);
 			$(".location").text(data.name);
 			$(".temp").text(data.main.temp);
 			$(".tempMin").text(data.main.temp_min);
@@ -39,7 +39,7 @@ function loadWeather(position) {
 		return $.get(apiURL+"forecast/daily?lat="+lat+"&lon="+lon
 			+"&cnt=10&units=imperial"+"&appid="+apiID)
 		.done(function (data) {
-			console.log(data);
+			//console.log(data);
 			for (var i = 0; i < data.list.length; ++i) {
 				var weather = data.list[i];
 				var label = $("<td>");
