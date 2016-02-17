@@ -16,3 +16,10 @@
 	margin-left: 6pt;
 	margin-right: 6pt;
 }
+
+/* Hide extra info in the forecast when the screen is too small */
+@media only screen and (max-width: 300pt) {
+	.forecast-hide-small {
+		display: none;
+	}
+}

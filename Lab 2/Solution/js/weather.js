@@ -57,7 +57,7 @@ function loadWeather(position) {
 				}
 				$(".forecast").append($("<tr>").append($(label))
 					.append($("<td>").text(Math.round(weather.temp.day)+"°F day"))
-					.append($("<td>").text(Math.round(weather.temp.night)+"°F night"))
+					.append($("<td>").text(Math.round(weather.temp.night)+"°F night").addClass("forecast-hide-small"))
 				);
 			}
 		});
