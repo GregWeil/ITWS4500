@@ -21,6 +21,7 @@ function loadWeatherCurrent(lat, lon) {
 		$(".temp").text(data.main.temp);
 		$(".tempMin").text(data.main.temp_min);
 		$(".tempMax").text(data.main.temp_max);
+		$(".weatherItems").children().remove();
 		for (var i = 0; i < data.weather.length; ++i) {
 			$(".weatherItems").append(
 				$('<li class="list-group-item">').append(
@@ -45,6 +46,7 @@ function loadWeatherForecast(lat, lon) {
 	})
 	.done(function (data) {
 		//console.log(data);
+		$(".forecast").children().remove();
 		for (var i = 0; i < data.list.length; ++i) {
 			var weather = data.list[i];
 			var label = $("<td>");
@@ -81,8 +83,10 @@ function loadWeather(position) {
 	});
 }
 
-$(document).ready(function () {
+function loadWeatherHere() {
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(loadWeather);
 	}
-});
+}
+
+$(document).ready(loadWeatherHere);
