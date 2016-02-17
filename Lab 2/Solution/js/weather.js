@@ -9,10 +9,11 @@ var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "S
 var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 function loadWeatherCurrent(lat, lon) {
+	var deferred = $.Deferred();
 	$.get(apiURL+"weather?lat="+lat+"&lon="+lon
 		+"&units=imperial"+"&appid="+apiID)
 	.fail(function () {
-		loadWeatherCurrent(lat, lon);
+		loadWeatherCurrent(lat, lon).done(deferred.resolve);
 	})
 	.done(function (data) {
 		//console.log(data);
@@ -30,14 +31,17 @@ function loadWeatherCurrent(lat, lon) {
 		$(".weatherItems")
 		.append($('<li class="list-group-item">').text(data.wind.speed+"mph wind"))
 		.append($('<li class="list-group-item">').text(data.main.humidity+"% humidity"));
+		deferred.resolve();
 	});
+	return deferred.promise();
 }
 
 function loadWeatherForecast(lat, lon) {
+	var deferred = $.Deferred();
 	$.get(apiURL+"forecast/daily?lat="+lat+"&lon="+lon
 		+"&cnt=10&units=imperial"+"&appid="+apiID)
 	.fail(function () {
-		loadWeatherForecast(lat, lon);
+		loadWeatherForecast(lat, lon).done(deferred.resolve);
 	})
 	.done(function (data) {
 		//console.log(data);
@@ -61,14 +65,20 @@ function loadWeatherForecast(lat, lon) {
 				.append($("<td>").text(Math.round(weather.temp.night)+"°F night").addClass("forecast-hide-small"))
 			);
 		}
+		deferred.resolve();
 	});
+	return deferred.promise();
 }
 
 function loadWeather(position) {
 	var lat = position.coords.latitude;
 	var lon = position.coords.longitude;
-	loadWeatherCurrent(lat, lon);
-	loadWeatherForecast(lat, lon);
+	$.when(
+		loadWeatherCurrent(lat, lon),
+		loadWeatherForecast(lat, lon)
+	).done(function () {
+		//console.log("ready");
+	});
 }
 
 $(document).ready(function () {
