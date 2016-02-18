@@ -18,6 +18,7 @@ A scrolling twitter feed, loaded from a static file
 	Some basic styling, most of the formatting is handled by Bootstrap
 	A scaling transform is used on images in the forecast so they can be larger
 		without having to change the table's padding and text alignment
+	An extra class is used to make the night temperatures disappear at small screen sizes
 
 Resources
 	The Bootstrap library was used for responsive layout
