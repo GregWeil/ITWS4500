@@ -1,3 +1,16 @@
+Lab 3 - Git & Bugs
+Web Science Systems Dev
+Greg Weil
+
+
+Individual
+
+Lab Repository
+https://github.com/GregWeil/ITWS4500
+
+
+Group
+
 Respository
 https://github.com/superfeed
 
