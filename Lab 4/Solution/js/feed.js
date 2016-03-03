@@ -23,5 +23,5 @@ function($scope, $http, $interval) {
 		if ($scope.tweets.length > 0) {
 			$scope.index = ($scope.index - 1 + $scope.tweets.length) % $scope.tweets.length;
 		}
-	}, 1000);
+	}, 5000);
 }]);
