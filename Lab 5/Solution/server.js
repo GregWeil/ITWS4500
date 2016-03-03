@@ -1,6 +1,7 @@
 // Required modules
 var express = require('express');
 var OAuth = require('oauth');
+var url = require('url');
 
 
 // Init the server
@@ -32,7 +33,13 @@ var oauth = new OAuth.OAuth(
 );
 
 app.get('/query', function(req, res) {
-	oauth.get('https://api.twitter.com/1.1/search/tweets.json?q=rpi',
+	var query = req.query;
+	if (!('q' in query)) query.geocode = '42.725,-73.675,1mi';
+	oauth.get(url.format({
+			protocol: 'https', host: 'api.twitter.com',
+			pathname: '/1.1/search/tweets.json',
+			query: query
+		}),
 		config.oauth_access_token, config.oauth_access_token_secret,
 		function (e, data) {
 			if (e) console.log(e);
