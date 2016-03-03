@@ -25,6 +25,19 @@
 			<h1>Live Twitter Feed! <small>({{tagline}})</small></h1>
 		</div>
 		
+		<div class="row">
+			<div class="col-sm-8">
+				<input type="text", class="form-control" />
+			</div>
+			<div class="col-sm-2">
+				<input type="number", class="form-control" value="10"  min="1"/>
+			</div>
+			<div class="col-sm-2">
+				<button class="btnSearch btn btn-default">Search</button>
+			</div>
+			<br/> <br/> <br/>
+		</div>
+		
 		<div id="tweets">
 			<div class="tweet" ng-repeat="tweet in tweets | sliceWrap:5:index">
 				<div class="media">

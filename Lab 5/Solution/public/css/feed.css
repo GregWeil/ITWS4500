@@ -1,5 +1,9 @@
 /* feed.css */
 
+.btnSearch {
+	width: 100%;
+}
+
 #tweets {
 	/* Appear behind the title */
 	z-index: -1;
