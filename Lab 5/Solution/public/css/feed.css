@@ -1,0 +1,55 @@
+/* feed.css */
+
+#tweets {
+	/* Appear behind the title */
+	z-index: -1;
+}
+
+.tweet .tweetImageLarge {
+	/* Proper alignment when the image doesn't load */
+	width: 48px;
+}
+
+.tweet .tweetImageSmall {
+	/* Smaller profile picture next to username */
+	width: 24px;
+	display: none;
+}
+
+.tweet .panel-footer {
+	/* Smaller footer */
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.tweet p {
+	/* Remove the empty space below text */
+	margin: 0;
+}
+
+/* Move around profile pictures on small screens */
+@media screen and (max-width: 700px) {
+	.tweet .tweetImageLarge {
+		display: none;
+	}
+	.tweet .tweetImageSmall {
+		display: inline;
+	}
+}
+ /* Animations */
+.ng-enter, .ng-leave {
+	transition: 400ms linear all;
+	position: relative;
+	display: block;
+}
+
+.ng-enter.ng-enter-active, .ng-leave {
+	opacity: 1;
+	top: 0px;
+}
+
+.ng-leave.ng-leave-active, .ng-enter {
+	opacity: 0;
+	top: 0px;
+}
+
