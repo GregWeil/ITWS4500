@@ -15,7 +15,7 @@ function($scope, $http, $interval) {
 	$scope.tweets = [];
 	$scope.index = 0;
 	
-	$http.get("get_tweets.php").then(function(response) {
+	$http.get("query").then(function(response) {
 		$scope.tweets = response.data.statuses;
 	});
 	
