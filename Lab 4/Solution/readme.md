@@ -17,6 +17,7 @@ A scrolling twitter feed, loaded from the Twitter API
 	Some basic styling, most of the formatting is handled by Bootstrap
 	A media query is used to switch to a smaller profile picture
 		It allows a little extra room for text when the screen is too small
+	Angular animations are used, though I couldn't get move transitions working
 
 Resources
 	The Bootstrap and Angular libraries were used, for layout and data handling

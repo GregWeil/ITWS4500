@@ -1,7 +1,7 @@
 ///feed.js
 //Load a set of twitter posts and cycle through them
 
-var tweetFeedApp = angular.module('tweetFeedApp', []);
+var tweetFeedApp = angular.module('tweetFeedApp', ['ngAnimate']);
 
 tweetFeedApp.filter('sliceWrap', function() {
 	return function(input, count, start) {
@@ -23,5 +23,5 @@ function($scope, $http, $interval) {
 		if ($scope.tweets.length > 0) {
 			$scope.index = ($scope.index - 1 + $scope.tweets.length) % $scope.tweets.length;
 		}
-	}, 5000);
+	}, 1000);
 }]);
