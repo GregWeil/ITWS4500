@@ -26,10 +26,10 @@
 		</div>
 		
 		<div id="tweets">
-			<div class="tweet" ng-repeat="tweet in tweets | sliceWrap:2:index">
+			<div class="tweet" ng-repeat="tweet in tweets | sliceWrap:5:index">
 				<div class="media">
 					<div class="media-left">
-						<img class="tweetImage" ng-src="{{tweet.user.profile_image_url}}" />
+						<img class="tweetImageLarge" ng-src="{{tweet.user.profile_image_url}}" />
 					</div>
 					<div class="media-body">
 						<div class="panel panel-default">
@@ -37,7 +37,10 @@
 								<p class="tweetText">{{tweet.text}}</p>
 							</div>
 							<div class="panel-footer">
-								<p><span class="tweetName">{{tweet.user.name}}</span></p>
+								<p>
+									<img class="tweetImageSmall" ng-src="{{tweet.user.profile_image_url}}" />
+									<span class="tweetName">{{tweet.user.name}}</span>
+								</p>
 							</div>
 						</div>
 					</div>
