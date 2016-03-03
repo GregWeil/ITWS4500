@@ -26,7 +26,7 @@
 		</div>
 		
 		<div id="tweets">
-			<div class="tweet" ng-repeat="tweet in tweets">
+			<div class="tweet" ng-repeat="tweet in tweets | sliceWrap:2:index">
 				<div class="media">
 					<div class="media-left">
 						<img class="tweetImage" ng-src="{{tweet.user.profile_image_url}}" />
