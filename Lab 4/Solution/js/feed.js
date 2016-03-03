@@ -55,3 +55,8 @@ $( document ).ready(function() {
 	tweetBase = $("#tweets").find(".tweet").remove();
 	$.get("get_tweets.php", cycleInit);
 });
+
+var tweetFeedApp = angular.module('tweetFeedApp', []);
+tweetFeedApp.controller('TweetFeedCtrl', function($scope) {
+	$scope.tagline = "recent but not live";
+});
