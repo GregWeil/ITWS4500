@@ -18,10 +18,10 @@ app.get('/', function(req, res) {
 
 // Query the API
 var config = {
-	'oauth_access_token': '47282406-UyxyVM0rkAwuti3YpgwLGyi84Yh8KXxKOv4mQ6Xhv',
-    'oauth_access_token_secret': 'DLEtDS9DFGpPUVG1SVC5A4J15iTd8VPZ68HmOU3BJmtGx',
-    'consumer_key': 'luI2jnjp3GOuyqKuWsSKIFstD',
-    'consumer_secret': 'HvEmsAiI8M5TE972F081eBgZDLR8pJnTg2UFdqXs7SC3WpzehT'
+	oauth_access_token: '47282406-UyxyVM0rkAwuti3YpgwLGyi84Yh8KXxKOv4mQ6Xhv',
+    oauth_access_token_secret: 'DLEtDS9DFGpPUVG1SVC5A4J15iTd8VPZ68HmOU3BJmtGx',
+    consumer_key: 'luI2jnjp3GOuyqKuWsSKIFstD',
+    consumer_secret: 'HvEmsAiI8M5TE972F081eBgZDLR8pJnTg2UFdqXs7SC3WpzehT'
 };
 
 var oauth = new OAuth.OAuth(
