@@ -39,16 +39,17 @@
  /* Animations */
 .ng-enter, .ng-leave {
 	transition: 400ms linear all;
+	position: relative;
 	display: block;
 }
 
 .ng-enter.ng-enter-active, .ng-leave {
 	opacity: 1;
-	height: 100px;
+	top: 0px;
 }
 
 .ng-leave.ng-leave-active, .ng-enter {
 	opacity: 0;
-	height: 0px;
+	top: 0px;
 }
 
