@@ -41,7 +41,8 @@ function cycleTweets() {
 
 function cycleInit(data) {
 	//Preparation for the tweet cycler
-	tweetData = data;
+	tweetData = $.parseJSON(data).statuses;
+	console.log(tweetData)
 	for (tweetIndex = 0; tweetIndex < tweetCount; ++tweetIndex) {
 		$("#tweets").append(buildTweet(tweetData[tweetIndex]));
 	}
@@ -52,5 +53,5 @@ function cycleInit(data) {
 $( document ).ready(function() {
 	//Pull the template tweet and load everything in
 	tweetBase = $("#tweets").find(".tweet").remove();
-	$.getJSON("tweetsFromTwitter.json", {}, cycleInit);
+	$.get("get_tweets.php", cycleInit);
 });
