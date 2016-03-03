@@ -26,18 +26,18 @@
 		</div>
 		
 		<div id="tweets">
-			<div class="tweet">
+			<div class="tweet" ng-repeat="tweet in tweets">
 				<div class="media">
 					<div class="media-left">
-						<img class="tweetImage" src="" />
+						<img class="tweetImage" ng-src="{{tweet.user.profile_image_url}}" />
 					</div>
 					<div class="media-body">
 						<div class="panel panel-default">
 							<div class="panel-body">
-								<p class="tweetText"></p>
+								<p class="tweetText">{{tweet.text}}</p>
 							</div>
 							<div class="panel-footer">
-								<p><span class="tweetName"></span></p>
+								<p><span class="tweetName">{{tweet.user.name}}</span></p>
 							</div>
 						</div>
 					</div>
