@@ -21,6 +21,7 @@ function($scope, $http, $interval) {
 	$scope.query = "";
 	
 	$scope.search = function () {
+		$scope.tweets = [];
 		$http.get("query", {
 			params: {
 				q: $scope.query,
