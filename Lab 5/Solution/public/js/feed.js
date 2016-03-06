@@ -13,11 +13,24 @@ tweetFeedApp.controller('TweetFeedCtrl', ['$scope', '$http', '$interval',
 function($scope, $http, $interval) {
 	$scope.tagline = "recent but not live";
 	$scope.tweets = [];
-	$scope.index = 0;
 	
-	$http.get("query").then(function(response) {
-		$scope.tweets = response.data.statuses;
-	});
+	$scope.index = 0;
+	$scope.display = 5;
+	
+	$scope.count = 0;
+	$scope.query = "";
+	
+	$scope.search = function () {
+		$http.get("query", {
+			params: {
+				q: $scope.query,
+				count: $scope.count
+			}
+		}).then(function(response) {
+			$scope.tweets = response.data.statuses;
+			$scope.index = 0;
+		});
+	}
 	
 	$interval(function() {
 		if ($scope.tweets.length > 0) {

@@ -34,7 +34,7 @@ var oauth = new OAuth.OAuth(
 
 app.get('/query', function(req, res) {
 	var query = req.query;
-	if (!('q' in query)) query.geocode = '42.725,-73.675,1mi';
+	if (!query.q) query.geocode = '42.725,-73.675,1mi';
 	oauth.get(url.format({
 			protocol: 'https', host: 'api.twitter.com',
 			pathname: '/1.1/search/tweets.json',
