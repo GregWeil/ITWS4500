@@ -17,7 +17,7 @@ function($scope, $http, $interval) {
 	$scope.index = 0;
 	$scope.display = 5;
 	
-	$scope.count = 0;
+	$scope.count = 10;
 	$scope.query = "";
 	
 	$scope.search = function () {
