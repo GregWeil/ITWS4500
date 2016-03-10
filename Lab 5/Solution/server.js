@@ -17,6 +17,16 @@ app.get('/', function(req, res) {
 });
 
 
+// Write out a set of tweets to a file
+function writeFile(data) {
+	var fdate = (new Date()).toISOString().replace(new RegExp(':', 'g'), '-');
+	var fname = "./out/" + fdate + "-tweets.json";
+	fs.writeFile(fname, JSON.stringify(data), function(e) {
+		if (e) console.log(e);
+	});
+}
+
+
 // Create the API link
 var config = {
 	access_token_key: '47282406-UyxyVM0rkAwuti3YpgwLGyi84Yh8KXxKOv4mQ6Xhv',
@@ -47,11 +57,7 @@ app.get('/query', function(req, res) {
 				res.send(data);
 				stream.destroy( );
 				console.log("done");
-				var fname = (new Date()).toISOString().replace(new RegExp(':', 'g'), '-')+"-tweets.json";
-				fs.writeFile("./out/"+fname, JSON.stringify(data), function(e) {
-					if (e) console.log(e);
-					console.log("done");
-				});
+				writeFile(data)
 			} else {
 				console.log(count + " remaining");
 			}
