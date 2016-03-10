@@ -50,17 +50,11 @@
 						<img class="tweetImageLarge" ng-src="{{tweet.user.profile_image_url}}" />
 					</div>
 					<div class="media-body">
-						<div class="panel panel-default">
-							<div class="panel-body">
-								<p class="tweetText">{{tweet.text}}</p>
-							</div>
-							<div class="panel-footer">
-								<p>
-									<img class="tweetImageSmall" ng-src="{{tweet.user.profile_image_url}}" />
-									<span class="tweetName">{{tweet.user.name}}</span>
-								</p>
-							</div>
-						</div>
+						<p>
+							<img class="tweetImageSmall" ng-src="{{tweet.user.profile_image_url}}" />
+							<span class="tweetName">{{tweet.user.name}}</span>
+						</p>
+						<p class="tweetText">{{tweet.text}}</p>
 					</div>
 				</div>
 			</div>

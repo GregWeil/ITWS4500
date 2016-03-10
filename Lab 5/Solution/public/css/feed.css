@@ -9,6 +9,14 @@
 	z-index: -1;
 }
 
+.tweet {
+	margin-top: 20pt;
+}
+
+.tweet .tweetName {
+	font-weight: bold;
+}
+
 .tweet .tweetImageLarge {
 	/* Proper alignment when the image doesn't load */
 	width: 48px;
