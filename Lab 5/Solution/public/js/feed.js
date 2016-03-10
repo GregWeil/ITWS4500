@@ -24,11 +24,11 @@ function($scope, $http, $interval) {
 		$scope.tweets = [];
 		$http.get("query", {
 			params: {
-				q: $scope.query,
+				track: $scope.query,
 				count: $scope.count
 			}
 		}).then(function(response) {
-			$scope.tweets = response.data.statuses;
+			$scope.tweets = response.data;
 			$scope.index = 0;
 		});
 	}
