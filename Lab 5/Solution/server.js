@@ -50,22 +50,27 @@ app.get('/query', function(req, res) {
 	console.log("requested " + count);
 	
 	client.stream("statuses/filter", query, function(stream) {
+		res.write("[");
 		
 		stream.on('data', function(tweet) {
+			res.write(JSON.stringify(tweet));
 			data.push(tweet);
 			if (--count <= 0 ) {
-				res.send(data);
+				res.write("]");
+				res.end();
 				stream.destroy( );
 				console.log("done");
 				writeFile(data)
 			} else {
+				res.write(",");
 				console.log(count + " remaining");
 			}
 		});
 		
 		stream.on('error', function(error) {
 			console.log(error);
-			res.send(data);
+			res.write("]");
+			res.end();
 			stream.destroy();
 		});
 	});
