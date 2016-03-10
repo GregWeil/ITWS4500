@@ -49,9 +49,11 @@ app.get('/query', function(req, res) {
 	var data = [];
 	console.log("requested " + count);
 	
+	//Open the stream
 	client.stream("statuses/filter", query, function(stream) {
 		res.write("[");
 		
+		//Receive a tweet
 		stream.on('data', function(tweet) {
 			res.write(JSON.stringify(tweet));
 			data.push(tweet);
@@ -67,11 +69,12 @@ app.get('/query', function(req, res) {
 			}
 		});
 		
+		//Error, Close the stream and close out the response
 		stream.on('error', function(error) {
+			stream.destroy();
 			console.log(error);
 			res.write("]");
 			res.end();
-			stream.destroy();
 		});
 	});
 });
