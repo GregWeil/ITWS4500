@@ -1,7 +1,7 @@
 // Required modules
 var express = require('express');
 var Twitter = require('twitter');
-var url = require('url');
+var fs = require('fs');
 
 
 // Init the server
@@ -17,16 +17,17 @@ app.get('/', function(req, res) {
 });
 
 
-// Query the API
+// Create the API link
 var config = {
 	access_token_key: '47282406-UyxyVM0rkAwuti3YpgwLGyi84Yh8KXxKOv4mQ6Xhv',
     access_token_secret: 'DLEtDS9DFGpPUVG1SVC5A4J15iTd8VPZ68HmOU3BJmtGx',
     consumer_key: 'luI2jnjp3GOuyqKuWsSKIFstD',
     consumer_secret: 'HvEmsAiI8M5TE972F081eBgZDLR8pJnTg2UFdqXs7SC3WpzehT'
 };
-
 var client = new Twitter(config);
 
+
+// API querying
 app.get('/query', function(req, res) {
 	var query = {};
 	if ('track' in req.query) query.track = req.query.track;
@@ -37,13 +38,20 @@ app.get('/query', function(req, res) {
 	var count = req.query.count || 1;
 	var data = [];
 	console.log("requested " + count);
+	
 	client.stream("statuses/filter", query, function(stream) {
+		
 		stream.on('data', function(tweet) {
 			data.push(tweet);
 			if (--count <= 0 ) {
 				res.send(data);
 				stream.destroy( );
 				console.log("done");
+				var fname = (new Date()).toISOString().replace(new RegExp(':', 'g'), '-')+"-tweets.json";
+				fs.writeFile("./out/"+fname, JSON.stringify(data), function(e) {
+					if (e) console.log(e);
+					console.log("done");
+				});
 			} else {
 				console.log(count + " remaining");
 			}
