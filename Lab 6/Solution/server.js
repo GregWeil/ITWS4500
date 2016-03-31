@@ -40,8 +40,8 @@ var client = new Twitter(config);
 // API querying
 app.get('/query', function(req, res) {
 	var query = {};
-	if ('track' in req.query) query.track = req.query.track;
-	if ('follow' in req.query) query.follow = req.query.follow;
+	if (req.query.track) query.track = req.query.track;
+	if (req.query.follow) query.follow = req.query.follow;
 	if (!('track' in query) && !('follow' in query)) {
 		query.locations = "42.72,-73.68,42.73,-73.67";
 	}
