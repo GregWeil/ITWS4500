@@ -19,7 +19,11 @@ function($scope, $http, $interval) {
 	
 	$scope.count = 10;
 	$scope.query = "";
+	
 	$scope.waiting = false;
+	$scope.exportSuccess = false;
+	$scope.exportOverwrite = false;
+	$scope.exportFailure = false;
 	
 	$scope.search = function () {
 		$scope.tweets = [];
@@ -34,7 +38,19 @@ function($scope, $http, $interval) {
 			$scope.index = 0;
 			$scope.waiting = false;
 		});
+	};
+	
+	$scope.exportInfoClear = function () {
+		$scope.exportSuccess = false;
+		$scope.exportOverwrite = false;
+		$scope.exportFailure = false;
 	}
+	
+	$scope.export = function (format) {
+		$scope.exportInfoClear();
+		$scope.exportSuccess = (format == 'json');
+		$scope.exportOverwrite = (format == 'csv');
+	};
 	
 	$interval(function() {
 		if ($scope.tweets.length > 0) {

@@ -44,14 +44,30 @@
 								Export <span class="caret"></span>
 							</button>
 							<ul class="dropExport dropdown-menu">
-								<li><a href="#">JSON</a></li>
-								<li><a href="#">CSV</a></li>
+								<li><a href="#" ng-click="export('json')">JSON</a></li>
+								<li><a href="#" ng-click="export('csv')">CSV</a></li>
 							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
 		</form>
+		
+		<div>
+			<br/>
+			<div ng-show="exportSuccess" class="alert alert-success" role="alert">
+				<strong>Success!</strong> Exported tweets to file
+				<button ng-click="exportSuccess=false" type="button" class="close" aria-label="Close"><span aria-hidden="true">×</span></button>
+			</div>
+			<div ng-show="exportOverwrite" class="alert alert-info" role="alert">
+				<strong>Success!</strong> Exported tweets over existing file
+				<button ng-click="exportOverwrite=false" type="button" class="close" aria-label="Close"><span aria-hidden="true">×</span></button>
+			</div>
+			<div ng-show="exportFailure" class="alert alert-danger" role="alert">
+				<strong>Error!</strong> Failed to export tweets
+				<button ng-click="exportFailure=false" type="button" class="close" aria-label="Close"><span aria-hidden="true">×</span></button>
+			</div>
+		</div>
 		
 		<div id="tweets">
 			<div class="tweet" ng-repeat="tweet in tweets | sliceWrap:display:index">
