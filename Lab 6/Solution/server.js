@@ -20,7 +20,7 @@ app.get('/', function(req, res) {
 // Write out a set of tweets to a file
 function writeFile(data) {
 	var fdate = (new Date()).toISOString().replace(new RegExp(':', 'g'), '-');
-	var fname = "./out-" + fdate + "-tweets.json";
+	var fname = "./public/out/out-" + fdate + "-tweets.json";
 	fs.writeFile(fname, JSON.stringify(data), function(e) {
 		if (e) console.log(e);
 	});
