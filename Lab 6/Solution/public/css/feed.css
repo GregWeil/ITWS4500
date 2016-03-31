@@ -1,7 +1,11 @@
 /* feed.css */
 
-.btnSearch {
+.btnSearch, .btnExport {
 	width: 100%;
+}
+
+.dropExport {
+	min-width: 96px !important;
 }
 
 #tweets {
