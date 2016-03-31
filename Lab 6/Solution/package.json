@@ -1,9 +1,10 @@
 {
   "name": "feed-node",
   "version": "0.0.1",
-  "description": "Twitter Feed using NodeJS",
+  "description": "Tweet Saver using NodeJS",
   "dependencies": {
-    "express": "^4.10.2"
+    "express": "^4.10.2",
+    "twitter": "^1.2.5"
   },
   "license": "UNLICENSED",
   "repository": "None"
