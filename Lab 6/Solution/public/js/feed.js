@@ -21,9 +21,8 @@ function($scope, $http, $interval) {
 	$scope.query = "";
 	
 	$scope.waiting = false;
-	$scope.exportSuccess = false;
-	$scope.exportOverwrite = false;
-	$scope.exportFailure = false;
+	$scope.exportStatus = '';
+	$scope.exportData = '';
 	
 	$scope.search = function () {
 		$scope.tweets = [];
@@ -35,21 +34,28 @@ function($scope, $http, $interval) {
 			}
 		}).then(function(response) {
 			$scope.tweets = response.data;
+			console.log($scope.tweets[0]);
 			$scope.index = 0;
 			$scope.waiting = false;
 		});
 	};
 	
-	$scope.exportInfoClear = function () {
-		$scope.exportSuccess = false;
-		$scope.exportOverwrite = false;
-		$scope.exportFailure = false;
-	}
-	
-	$scope.export = function (format) {
-		$scope.exportInfoClear();
-		$scope.exportSuccess = (format == 'json');
-		$scope.exportOverwrite = (format == 'csv');
+	$scope.exportSearch = function (format) {
+		$scope.exportStatus = '';
+		$scope.waiting = true;
+		$http.post("export", {
+			track: $scope.query,
+			count: $scope.count,
+			format: format
+		}).then(function(response) {
+			if (response.data.status) {
+				$scope.exportStatus = 'success';
+				$scope.exportData = response.data.file;
+			} else {
+				$scope.exportStatus = 'error';
+			}
+			$scope.waiting = false;
+		});
 	};
 	
 	$interval(function() {

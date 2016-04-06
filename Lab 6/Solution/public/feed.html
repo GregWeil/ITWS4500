@@ -40,12 +40,12 @@
 						</div>
 						<div class="col-xs-4">
 							<button type="button" class="btnExport btn btn-default dropdown-toggle"
-									data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="waiting || !tweets.length">
+									data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="waiting">
 								Export <span class="caret"></span>
 							</button>
 							<ul class="dropExport dropdown-menu">
-								<li><a href="#" ng-click="export('json')">JSON</a></li>
-								<li><a href="#" ng-click="export('csv')">CSV</a></li>
+								<li><a href="#" ng-click="exportSearch('json')">JSON</a></li>
+								<li><a href="#" ng-click="exportSearch('csv')">CSV</a></li>
 							</ul>
 						</div>
 					</div>
@@ -55,17 +55,17 @@
 		
 		<div>
 			<br/>
-			<div ng-show="exportSuccess" class="alert alert-success" role="alert">
-				<strong>Success!</strong> Exported tweets to file
-				<button ng-click="exportSuccess=false" type="button" class="close" aria-label="Close"><span aria-hidden="true">×</span></button>
+			<div ng-show="exportStatus == 'success'" class="alert alert-success" role="alert">
+				<strong>Success!</strong> Exported tweets to file <a ng-href="{{exportData}}" target="_blank">here</a>
+				<button ng-click="exportStatus=''" type="button" class="close" aria-label="Close"><span aria-hidden="true">×</span></button>
 			</div>
-			<div ng-show="exportOverwrite" class="alert alert-info" role="alert">
+			<div ng-show="exportStatus == 'overwrite'" class="alert alert-info" role="alert">
 				<strong>Success!</strong> Exported tweets over existing file
-				<button ng-click="exportOverwrite=false" type="button" class="close" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<button ng-click="exportStatus=''" type="button" class="close" aria-label="Close"><span aria-hidden="true">×</span></button>
 			</div>
-			<div ng-show="exportFailure" class="alert alert-danger" role="alert">
+			<div ng-show="exportStatus == 'error'" class="alert alert-danger" role="alert">
 				<strong>Error!</strong> Failed to export tweets
-				<button ng-click="exportFailure=false" type="button" class="close" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<button ng-click="exportStatus=''" type="button" class="close" aria-label="Close"><span aria-hidden="true">×</span></button>
 			</div>
 		</div>
 		
