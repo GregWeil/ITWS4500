@@ -1,12 +1,13 @@
 // Required modules
 var express = require('express');
+var bodyParser = require('body-parser');
 var Twitter = require('twitter');
 var fs = require('fs');
 
 
 // Init the server
 var app = express();
-
+app.use(bodyParser.json());
 
 // Serve static files
 app.use(express.static('public'));
@@ -15,16 +16,6 @@ app.use(express.static('public'));
 app.get('/', function(req, res) {
 	res.sendFile(__dirname + '/public/feed.html');
 });
-
-
-// Write out a set of tweets to a file
-function writeFile(data) {
-	var fdate = (new Date()).toISOString().replace(new RegExp(':', 'g'), '-');
-	var fname = "./public/out/out-" + fdate + "-tweets.json";
-	fs.writeFile(fname, JSON.stringify(data), function(e) {
-		if (e) console.log(e);
-	});
-}
 
 
 // Create the API link
@@ -57,7 +48,7 @@ function queryAPI(query, count, output, start, write, end) {
 			write(output, tweet, first);
 			first = false;
 			if (--count <= 0 ) {
-				end(output);
+				end(output, true);
 				stream.destroy( );
 				console.log("done");
 			} else {
@@ -67,9 +58,9 @@ function queryAPI(query, count, output, start, write, end) {
 		
 		//Error, Close the stream and close out the response
 		stream.on('error', function(error) {
+			end(output, false);
 			stream.destroy();
 			console.log(error);
-			end(output);
 		});
 	});
 }
@@ -87,11 +78,82 @@ app.get('/query', function(req, res) {
 			if (!first) stream.write(",");
 			stream.write(JSON.stringify(data));
 		},
-		function(stream) {
+		function(stream, ok) {
 			stream.write("]");
 			stream.end();
 		}
 	);
+});
+
+// API export
+app.post('/export', function(req, res) {
+	var query = queryBuild(req.body);
+	var count = req.body.count || 1;
+	var fdate = (new Date()).toISOString().replace(new RegExp(':', 'g'), '-');
+	var fname = ("out/out-" + fdate + "-tweets");
+	if (req.body.format) fname += ("." + req.body.format);
+	var file = fs.createWriteStream("./public/" + fname);
+	if (req.body.format == 'csv') {
+		queryAPI(query, count, file,
+			function(stream) {
+				stream.write('"id","text","created_at",');
+				stream.write('"user_id","user_name","user_screen_name",');
+				stream.write('"user_location","user_followers_count","user_friends_count",');
+				stream.write('"user_created_at","user_time_zone",');
+				stream.write('"user_profile_background_color","user_profile_image_url",');
+				stream.write('"geo","coordinates","place"\n');
+			},
+			function(stream, data, first) {
+				stream.write('"'+data.id+'","'+data.text+'","'+data.created_at+'",');
+				stream.write('"'+data.user.id+'","'+data.user.name+'",');
+				stream.write('"'+data.user.screen_name+'","'+data.user.location+'",');
+				stream.write('"'+data.user.followers_count+'","'+data.user.friends_count+'",');
+				stream.write('"'+data.user.created_at+'","'+data.user.time_zone+'",');
+				stream.write('"'+data.user.profile_background_color+'",');
+				stream.write('"'+data.user.profile_image_url+'","'+data.geo+'",');
+				stream.write('"'+data.coordinates+'","'+data.place+'"');
+				stream.write('\n');
+			},
+			function(stream, ok) {
+				stream.end();
+				res.send({
+					file: fname,
+					status: ok
+				});
+			}
+		);
+	} else {
+		queryAPI(query, count, file,
+			function(stream) {
+				stream.write("[");
+			},
+			function(stream, data, first) {
+				if (!first) stream.write(",");
+				stream.write(JSON.stringify({
+					id: data.id, text: data.text,
+					created_at: data.created_at,
+					user_id: data.user.id, user_name: data.user.name,
+					user_screen_name: data.user.screen_name,
+					user_location: data.user.location,
+					user_followers_count: data.user.followers_count,
+					user_friends_count: data.user.friends_count,
+					user_created_at: data.user.created_at,
+					user_time_zone: data.user.time_zone,
+					user_profile_background_color: data.user.profile_background_color,
+					user_profile_image_url: data.user.profile_image_url,
+					geo: data.geo, coordinates: data.coordinates, place: data.place
+				}));
+			},
+			function(stream, ok) {
+				stream.write("]");
+				stream.end();
+				res.send({
+					file: fname,
+					status: ok
+				});
+			}
+		);
+	}
 });
 
 
