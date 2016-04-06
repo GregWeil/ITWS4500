@@ -36,35 +36,31 @@ var config = {
 };
 var client = new Twitter(config);
 
-
-// API querying
-app.get('/query', function(req, res) {
+function queryBuild(req) {
 	var query = {};
-	if (req.query.track) query.track = req.query.track;
-	if (req.query.follow) query.follow = req.query.follow;
+	if (req.track) query['track'] = req.track;
+	if (req.follow) query['follow'] = req.follow;
 	if (!('track' in query) && !('follow' in query)) {
 		query.locations = "42.72,-73.68,42.73,-73.67";
 	}
-	var count = req.query.count || 1;
-	var data = [];
+	return query;
+}
+
+function queryAPI(query, count, output, start, write, end) {
 	console.log("requested " + count);
-	
-	//Open the stream
 	client.stream("statuses/filter", query, function(stream) {
-		res.write("[");
+		start(output);
+		var first = true;
 		
 		//Receive a tweet
 		stream.on('data', function(tweet) {
-			res.write(JSON.stringify(tweet));
-			data.push(tweet);
+			write(output, tweet, first);
+			first = false;
 			if (--count <= 0 ) {
-				res.write("]");
-				res.end();
+				end(output);
 				stream.destroy( );
 				console.log("done");
-				writeFile(data)
 			} else {
-				res.write(",");
 				console.log(count + " remaining");
 			}
 		});
@@ -73,10 +69,29 @@ app.get('/query', function(req, res) {
 		stream.on('error', function(error) {
 			stream.destroy();
 			console.log(error);
-			res.write("]");
-			res.end();
+			end(output);
 		});
 	});
+}
+
+
+// API querying
+app.get('/query', function(req, res) {
+	var query = queryBuild(req.query);
+	var count = req.query.count || 1;
+	queryAPI(query, count, res,
+		function(stream) {
+			stream.write("[");
+		},
+		function(stream, data, first) {
+			if (!first) stream.write(",");
+			stream.write(JSON.stringify(data));
+		},
+		function(stream) {
+			stream.write("]");
+			stream.end();
+		}
+	);
 });
 
 
