@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 var fs = require('fs');
 
 var twitter = require('./twitterStream.js');
-var convert = require('./twitterExport.js');
+var twitterExport = require('./twitterExport.js');
 
 
 // Init the server
@@ -24,7 +24,7 @@ app.get('/', function(req, res) {
 app.get('/query', function(req, res) {
 	var query = twitter.queryBuild(req.query);
 	var count = req.query.count || 1;
-	twitter.queryAPI(query, count, res, convert.startFull, convert.dataFull, convert.endFull);
+	twitter.queryAPI(query, count, res, twitterExport.full);
 });
 
 // API export
@@ -46,24 +46,17 @@ app.post('/export', function(req, res) {
 	}
 	var file = fs.createWriteStream("./public/" + fname);
 	
+	var done = function(ok) {
+		res.send({
+			file: fname,
+			status: ok ? (!exists ? 1 : 0) : -1
+		});
+	};
+	
 	if (req.body.format == 'csv') {
-		twitter.queryAPI(query, count, file, convert.startCSV, convert.dataCSV, convert.endCSV,
-			function(ok) {
-				res.send({
-					file: fname,
-					status: ok ? (!exists ? 1 : 0) : -1
-				});
-			}
-		);
+		twitter.queryAPI(query, count, file, twitterExport.csv, done);
 	} else {
-		twitter.queryAPI(query, count, file, convert.startJSON, convert.dataJSON, convert.endJSON,
-			function(ok) {
-				res.send({
-					file: fname,
-					status: ok ? (!exists ? 1 : 0) : -1
-				});
-			}
-		);
+		twitter.queryAPI(query, count, file, twitterExport.json, done);
 	}
 });
 

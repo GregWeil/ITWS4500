@@ -20,18 +20,18 @@ module.exports.queryBuild = function(req) {
 	return query;
 }
 
-module.exports.queryAPI = function(query, count, output, start, write, end, done) {
+module.exports.queryAPI = function(query, count, output, handler, done) {
 	console.log("requested " + count);
 	client.stream("statuses/filter", query, function(stream) {
-		start(output);
+		handler.start(output);
 		var first = true;
 		
 		//Receive a tweet
 		stream.on('data', function(tweet) {
-			write(output, tweet, first);
+			handler.data(output, tweet, first);
 			first = false;
 			if (--count <= 0 ) {
-				end(output, true);
+				handler.end(output, true);
 				if (done) done(true);
 				stream.destroy( );
 				console.log("done");
@@ -42,7 +42,7 @@ module.exports.queryAPI = function(query, count, output, start, write, end, done
 		
 		//Error, Close the stream and close out the response
 		stream.on('error', function(error) {
-			end(output, false);
+			handler.end(output, false);
 			if (done) done(false);
 			stream.destroy();
 			console.log(error);
