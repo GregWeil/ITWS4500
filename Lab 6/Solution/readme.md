@@ -31,3 +31,11 @@ Resources
 	The Bootstrap and Angular libraries were used for layout and data handling
 	The twitter library is used to access the Twitter streaming API
 	The fs module is used for file writing and checking
+
+Where would it be better to place the CSV conversion code?
+	I chose to put the conversion code on the server. This means
+	the server must do more work, but gives better security. If the
+	conversion were done in Angular, the server would be hosting
+	the result sent back. Malicious users could upload other files
+	and have the server host something else. I could have the server do
+	some kind of verification on the file, but that would get complex.
