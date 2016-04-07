@@ -1,8 +1,8 @@
-Lab 5 - node.js, angularJS, and the Twitter API
+Lab 6 - node.js and tweets.json to CSV
 Web Science Systems Dev
 Greg Weil
 
-A scrolling twitter feed, loaded from the streaming Twitter API
+Export results from the twitter feed to multiple formats
 
 /server.js
 	The node server hosts the contents of the public directory
@@ -12,19 +12,22 @@ A scrolling twitter feed, loaded from the streaming Twitter API
 		If nothing is provided it will look in the RPI campus
 		This can take some time as the server is getting tweets live
 		Try something really popular like 'election'
+	POSTs to /export creates a file and returns a link to it
+		Send a JSON object with the same parameters as query
+		The additional format parameter can be set to 'json' or 'csv'
 
 /public/feed.html
 	The layout of the page, with angular directives for tweets
-	There is also now input for a query and a number to return
+	There are also three popups to show export results
 
 /public/js/feed.js
 	This script handles requests to the server for tweets
-	It uses AngujarJS to update the DOM elements
+	It also manages element activation to block input while loading
 /public/css/feed.css
 	Some basic styling, most of the formatting is handled by Bootstrap
-	A media query is used to switch to a smaller profile picture
-		It allows a little extra room for text when the screen is too small
 
 Resources
 	NodeJS, with the twitter library are used on the server to retrieve tweets
 	The Bootstrap and Angular libraries were used for layout and data handling
+	The twitter library is used to access the Twitter streaming API
+	The fs module is used for file writing and checking
