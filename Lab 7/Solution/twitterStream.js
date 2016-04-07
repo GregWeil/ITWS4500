@@ -20,7 +20,7 @@ module.exports.queryBuild = function(req) {
 	return query;
 }
 
-module.exports.queryAPI = function(query, count, output, start, write, end) {
+module.exports.queryAPI = function(query, count, output, start, write, end, done) {
 	console.log("requested " + count);
 	client.stream("statuses/filter", query, function(stream) {
 		start(output);
@@ -32,6 +32,7 @@ module.exports.queryAPI = function(query, count, output, start, write, end) {
 			first = false;
 			if (--count <= 0 ) {
 				end(output, true);
+				if (done) done(true);
 				stream.destroy( );
 				console.log("done");
 			} else {
@@ -42,6 +43,7 @@ module.exports.queryAPI = function(query, count, output, start, write, end) {
 		//Error, Close the stream and close out the response
 		stream.on('error', function(error) {
 			end(output, false);
+			if (done) done(false);
 			stream.destroy();
 			console.log(error);
 		});
