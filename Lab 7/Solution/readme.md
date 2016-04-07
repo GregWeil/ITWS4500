@@ -1,8 +1,8 @@
-Lab 6 - node.js and tweets.json to CSV
+Lab 7 - node.js, mongoDB and tweets
 Web Science Systems Dev
 Greg Weil
 
-Export results from the twitter feed to multiple formats
+Build a tweets database and allow it to be exported
 
 /server.js
 	The node server hosts the contents of the public directory
