@@ -11,11 +11,18 @@ tweetFeedApp.filter('sliceWrap', function() {
 
 tweetFeedApp.controller('TweetFeedCtrl', ['$scope', '$http', '$interval',
 function($scope, $http, $interval) {
-	$scope.tagline = "It'll load eventually";
+	$scope.tagline = "Now with MongoDB!";
 	
 	$scope.tweets = [];
 	$scope.index = 0;
 	$scope.display = 5;
+	
+	$interval(function() {
+		if ($scope.tweets.length > 0) {
+			$scope.index = ($scope.index - 1 + $scope.tweets.length) % $scope.tweets.length;
+		}
+	}, 5000);
+	
 	
 	$scope.count = 10;
 	$scope.query = "";
@@ -57,9 +64,18 @@ function($scope, $http, $interval) {
 		});
 	};
 	
-	$interval(function() {
-		if ($scope.tweets.length > 0) {
-			$scope.index = ($scope.index - 1 + $scope.tweets.length) % $scope.tweets.length;
-		}
-	}, 5000);
+	
+	$scope.dbBuild = function () {
+		console.log("dbBuild");
+	}
+	
+	$scope.dbRead = function () {
+		$scope.tweets = [];
+		$scope.index = 0;
+		console.log("dbRead");
+	}
+	
+	$scope.dbExport = function () {
+		console.log("dbExport");
+	}
 }]);
