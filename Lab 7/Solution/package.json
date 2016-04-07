@@ -1,10 +1,11 @@
 {
   "name": "feed-node",
   "version": "0.0.1",
-  "description": "Tweet Saver using NodeJS",
+  "description": "Tweet viewer using NodeJS and MongoDB",
   "dependencies": {
     "body-parser": "^1.15.0",
     "express": "^4.10.2",
+    "mongodb": "^2.1.16",
     "twitter": "^1.2.5"
   },
   "license": "UNLICENSED",
