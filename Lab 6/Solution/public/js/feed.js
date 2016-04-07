@@ -34,7 +34,6 @@ function($scope, $http, $interval) {
 			}
 		}).then(function(response) {
 			$scope.tweets = response.data;
-			console.log($scope.tweets[0]);
 			$scope.index = 0;
 			$scope.waiting = false;
 		});
@@ -48,8 +47,8 @@ function($scope, $http, $interval) {
 			count: $scope.count,
 			format: format
 		}).then(function(response) {
-			if (response.data.status) {
-				$scope.exportStatus = 'success';
+			if (response.data.status >= 0) {
+				$scope.exportStatus = (response.data.status > 0) ? 'success' : 'overwrite';
 				$scope.exportData = response.data.file;
 			} else {
 				$scope.exportStatus = 'error';

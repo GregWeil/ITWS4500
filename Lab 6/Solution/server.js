@@ -89,10 +89,21 @@ app.get('/query', function(req, res) {
 app.post('/export', function(req, res) {
 	var query = queryBuild(req.body);
 	var count = req.body.count || 1;
-	var fdate = (new Date()).toISOString().replace(new RegExp(':', 'g'), '-');
-	var fname = ("out/out-" + fdate + "-tweets");
+	
+	var fdate = new Date();
+	var fdatestr = (fdate.getUTCFullYear()+"-"+fdate.getUTCMonth()+"-"+fdate.getUTCDate());
+	var fname = ("out/out-"+fdatestr+"&count="+count);
+	if ('track' in query) fname += ("&track="+query.track);
 	if (req.body.format) fname += ("." + req.body.format);
+	
+	var exists = true;
+	try {
+		fs.accessSync("./public/" + fname);
+	} catch (err) {
+		exists = false;
+	}
 	var file = fs.createWriteStream("./public/" + fname);
+	
 	if (req.body.format == 'csv') {
 		queryAPI(query, count, file,
 			function(stream) {
@@ -118,7 +129,7 @@ app.post('/export', function(req, res) {
 				stream.end();
 				res.send({
 					file: fname,
-					status: ok
+					status: ok ? (!exists ? 1 : 0) : -1
 				});
 			}
 		);
@@ -149,7 +160,7 @@ app.post('/export', function(req, res) {
 				stream.end();
 				res.send({
 					file: fname,
-					status: ok
+					status: ok ? (!exists ? 1 : 0) : -1
 				});
 			}
 		);

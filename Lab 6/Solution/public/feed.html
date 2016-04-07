@@ -60,7 +60,7 @@
 				<button ng-click="exportStatus=''" type="button" class="close" aria-label="Close"><span aria-hidden="true">×</span></button>
 			</div>
 			<div ng-show="exportStatus == 'overwrite'" class="alert alert-info" role="alert">
-				<strong>Success!</strong> Exported tweets over existing file
+				<strong>Success!</strong> Exported tweets over existing file <a ng-href="{{exportData}}" target="_blank">here</a>
 				<button ng-click="exportStatus=''" type="button" class="close" aria-label="Close"><span aria-hidden="true">×</span></button>
 			</div>
 			<div ng-show="exportStatus == 'error'" class="alert alert-danger" role="alert">
