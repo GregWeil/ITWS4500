@@ -27,6 +27,8 @@ function($scope, $http, $interval) {
 	$scope.count = 10;
 	$scope.query = "";
 	
+	$scope.dbName = "";
+	
 	$scope.waiting = false;
 	$scope.exportStatus = '';
 	$scope.exportData = '';
@@ -89,9 +91,11 @@ function($scope, $http, $interval) {
 	}
 	
 	$scope.dbExport = function () {
+		$scope.exportStatus = '';
 		$scope.waiting = true;
-		$http.post("db/export", {})
-		.then(function(response) {
+		$http.post("db/export", {
+			name: $scope.dbName
+		}).then(function(response) {
 			console.log(response.data);
 			$scope.waiting = false;
 		});
