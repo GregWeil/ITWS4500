@@ -111,7 +111,33 @@ MongoClient.connect('mongodb://localhost:27017', function(err, db) {
 	});
 
 	app.post('/db/export', function(req, res) {
-		res.send("done");
+		var fname = "/out/out-database";
+		if (req.body.name) fname += '-' + req.body.name;
+		fname += '.json';
+		
+		var exists = true;
+		try {
+			fs.accessSync("./public/" + fname);
+		} catch (err) {
+			exists = false;
+		}
+		
+		var file = fs.createWriteStream("./public/" + fname);
+		db.collection('tweets').find({}).toArray(function(err, docs) {
+			if (err) {
+				console.log(err);
+				file.write(JSON.stringify([]));
+			} else {
+				file.write(JSON.stringify(docs));
+			}
+			var status = 'success';
+			if (exists) status = 'overwrite';
+			if (err) status = 'error';
+			res.send({
+				file: fname,
+				status: status
+			});
+		})
 	});
 });
 

@@ -94,7 +94,10 @@ function($scope, $http, $interval) {
 		$http.post("db/export", {
 			name: $scope.dbName
 		}).then(function(response) {
-			console.log(response.data);
+			$scope.exportStatus = response.data.status;
+			if ($scope.exportStatus != 'error') {
+				$scope.exportData = response.data.file;
+			}
 			$scope.waiting = false;
 		});
 	}
