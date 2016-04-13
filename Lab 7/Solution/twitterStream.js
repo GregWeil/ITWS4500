@@ -23,7 +23,7 @@ module.exports.queryBuild = function(req) {
 module.exports.queryAPI = function(query, count, output, handler, done) {
 	console.log("requested " + count);
 	client.stream("statuses/filter", query, function(stream) {
-		handler.start(output);
+		if (handler.start) handler.start(output);
 		var first = true;
 		
 		//Receive a tweet
@@ -31,7 +31,7 @@ module.exports.queryAPI = function(query, count, output, handler, done) {
 			handler.data(output, tweet, first);
 			first = false;
 			if (--count <= 0 ) {
-				handler.end(output, true);
+				if (handler.end) handler.end(output, true);
 				if (done) done(true);
 				stream.destroy( );
 				console.log("done");
@@ -42,7 +42,7 @@ module.exports.queryAPI = function(query, count, output, handler, done) {
 		
 		//Error, Close the stream and close out the response
 		stream.on('error', function(error) {
-			handler.end(output, false);
+			if (handler.end) handler.end(output, false);
 			if (done) done(false);
 			stream.destroy();
 			console.log(error);

@@ -66,16 +66,34 @@ function($scope, $http, $interval) {
 	
 	
 	$scope.dbBuild = function () {
-		console.log("dbBuild");
+		$scope.waiting = true;
+		$http.post("db/build", {
+			track: $scope.query,
+			count: $scope.count
+		}).then(function(response) {
+			$scope.waiting = false;
+		});
 	}
 	
 	$scope.dbRead = function () {
 		$scope.tweets = [];
 		$scope.index = 0;
-		console.log("dbRead");
+		$scope.waiting = true;
+		$http.get("db/read")
+		.then(function(response) {
+			console.log(response.data.length);
+			$scope.tweets = response.data;
+			$scope.index = 0;
+			$scope.waiting = false;
+		});
 	}
 	
 	$scope.dbExport = function () {
-		console.log("dbExport");
+		$scope.waiting = true;
+		$http.post("db/export", {})
+		.then(function(response) {
+			console.log(response.data);
+			$scope.waiting = false;
+		});
 	}
 }]);

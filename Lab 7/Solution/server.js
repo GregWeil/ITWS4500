@@ -65,8 +65,43 @@ app.post('/export', function(req, res) {
 
 // Database usage
 MongoClient.connect('mongodb://localhost:27017', function(err, db) {
-	if (err) console.log(err);
-	else console.log('connected');
+	if (err) {
+		console.log(err);
+		return;
+	}
+	
+	app.post('/db/build', function(req, res) {
+		var query = twitter.queryBuild(req.body);
+		var count = req.body.count || 1;
+		var errors = false;
+		twitter.queryAPI(query, count, db.collection('tweets'), {
+			data: function(collection, tweet) {
+				collection.insertOne(tweet, function(err, result) {
+					if (err) {
+						console.log(err);
+						errors = true;
+					}
+				});
+			}
+		}, function(ok) {
+			res.send(ok && !errors);
+		});
+	});
+
+	app.get('/db/read', function(req, res) {
+		db.collection('tweets').find({}).toArray(function(err, docs) {
+			if (err) {
+				console.log(err);
+				res.send([]);
+			} else {
+				res.send(docs);
+			}
+		})
+	});
+
+	app.post('/db/export', function(req, res) {
+		res.send("done");
+	});
 });
 
 
