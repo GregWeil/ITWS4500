@@ -49,9 +49,12 @@ app.post('/export', function(req, res) {
 	var file = fs.createWriteStream("./public/" + fname);
 	
 	var done = function(ok) {
+		var status = 'success';
+		if (exists) status = 'overwrite';
+		if (!ok) status = 'error';
 		res.send({
 			file: fname,
-			status: ok ? (!exists ? 1 : 0) : -1
+			status: status
 		});
 	};
 	

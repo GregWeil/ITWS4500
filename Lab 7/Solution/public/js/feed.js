@@ -56,11 +56,9 @@ function($scope, $http, $interval) {
 			count: $scope.count,
 			format: format
 		}).then(function(response) {
-			if (response.data.status >= 0) {
-				$scope.exportStatus = (response.data.status > 0) ? 'success' : 'overwrite';
+			$scope.exportStatus = response.data.status;
+			if ($scope.exportStatus != 'error') {
 				$scope.exportData = response.data.file;
-			} else {
-				$scope.exportStatus = 'error';
 			}
 			$scope.waiting = false;
 		});
