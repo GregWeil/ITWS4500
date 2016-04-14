@@ -7,14 +7,23 @@ Build a tweets database and allow it to be exported
 /server.js
 	The node server hosts the contents of the public directory
 	The feed page is available at localhost:3000
-	Navigating to /query will return a set of tweets
+	POSTs to /db/build will repopulate the database
 		Filter using ?track= and ?follow=
 		If nothing is provided it will look in the RPI campus
 		This can take some time as the server is getting tweets live
 		Try something really popular like 'election'
-	POSTs to /export creates a file and returns a link to it
-		Send a JSON object with the same parameters as query
-		The additional format parameter can be set to 'json' or 'csv'
+	GETs to /db/read get the current contents of the database
+		No parameters are supported, it just returns everything
+	POSTs to /db/export creates a file and returns a link to it
+		Send a JSON object with the parameter 'name'
+		Output is always in the XML format
+
+/twitterStream.js
+	A utility library for interacting with the streaming API
+	Has functions for building queries and getting a specific number of tweets
+/twitterExport.js
+	Functions to pass into twitterStream to convert to different formats
+	This is mostly just cleaned up code from the previous lab
 
 /public/feed.html
 	The layout of the page, with angular directives for tweets
@@ -30,12 +39,6 @@ Resources
 	NodeJS, with the twitter library are used on the server to retrieve tweets
 	The Bootstrap and Angular libraries were used for layout and data handling
 	The twitter library is used to access the Twitter streaming API
+	The mongodb library is used to interact with the mongo database
+	The xml module is used to build the database xml export
 	The fs module is used for file writing and checking
-
-Where would it be better to place the CSV conversion code?
-	I chose to put the conversion code on the server. This means
-	the server must do more work, but gives better security. If the
-	conversion were done in Angular, the server would be hosting
-	the result sent back. Malicious users could upload other files
-	and have the server host something else. I could have the server do
-	some kind of verification on the file, but that would get complex.
