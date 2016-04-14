@@ -12,6 +12,8 @@ Build a tweets database and allow it to be exported
 		If nothing is provided it will look in the RPI campus
 		This can take some time as the server is getting tweets live
 		Try something really popular like 'election'
+		Include clear=true to wipe previous results
+			The webpage always sets clear to true
 	GETs to /db/read get the current contents of the database
 		No parameters are supported, it just returns everything
 	POSTs to /db/export creates a file and returns a link to it

@@ -69,7 +69,8 @@ function($scope, $http, $interval) {
 		$scope.waiting = true;
 		$http.post("db/build", {
 			track: $scope.query,
-			count: $scope.count
+			count: $scope.count,
+			clear: true
 		}).then(function(response) {
 			$scope.waiting = false;
 		});
