@@ -1,0 +1,10 @@
+{
+  "name": "lab8-sparql",
+  "version": "0.0.1",
+  "description": "A webpage for making SPARQL queries",
+  "dependencies": {
+    "express": "^4.13.4"
+  },
+  "license": "UNLICENSED",
+  "repository": "None"
+}
