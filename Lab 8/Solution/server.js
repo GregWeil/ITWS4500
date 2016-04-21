@@ -16,7 +16,7 @@ app.get('/query', function(req, res) {
     request.get({
         url: 'http://dbpedia.org/sparql',
         qs: {
-            query: 'select+distinct+%3FConcept+where+%7B%5B%5D+a+%3FConcept%7D+LIMIT+100',
+            query: req.query.query,
             format: 'application/sparql-results+json'
         }
     }).pipe(res)
