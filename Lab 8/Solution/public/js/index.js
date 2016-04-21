@@ -6,7 +6,7 @@ $(document).ready(function() {
 		+ 'select ?name ?birth ?subject '
 		+ 'where { ?subject a dbo:Person. '
 		+ '?subject dbo:birthName ?name. '
-		+ '?subject dbo:birthYear ?birth. } '
+		+ '?subject dbo:birthDate ?birth. } '
 		+ 'limit 10'
 	)
 	$('#form').submit(function(e) {
@@ -26,7 +26,13 @@ $(document).ready(function() {
 				var row = $('<tr>').appendTo(output)
 				for (var j = 0; j < data.head.vars.length; ++j) {
 					var value = data.results.bindings[i][data.head.vars[j]]
-					row.append($('<td>').text(value.value))
+					var elem = $('<td>')
+					if (value.type == 'uri') {
+						elem.append($('<a>').attr('href', value.value).text(value.value))
+					} else {
+						elem.text(value.value)
+					}
+					row.append(elem)
 				}
 			}
 		})
