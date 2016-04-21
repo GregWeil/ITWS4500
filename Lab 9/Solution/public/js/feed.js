@@ -94,7 +94,8 @@ function($scope, $http, $interval) {
 		$scope.exportStatus = '';
 		$scope.waiting = true;
 		$http.post("db/export", {
-			name: $scope.dbName
+			name: $scope.dbName,
+			format: "xml"
 		}).then(function(response) {
 			$scope.exportStatus = response.data.status;
 			if ($scope.exportStatus != 'error') {

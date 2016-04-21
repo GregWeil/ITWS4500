@@ -118,7 +118,7 @@ MongoClient.connect('mongodb://localhost:27017', function(err, db) {
 	app.post('/db/export', function(req, res) {
 		var fname = "/out/out-database";
 		if (req.body.name) fname += '-' + req.body.name;
-		fname += '.xml';
+		if (req.body.format) fname += '.' + req.body.format;
 		
 		var exists = true;
 		try {
@@ -129,25 +129,19 @@ MongoClient.connect('mongodb://localhost:27017', function(err, db) {
 		
 		var file = fs.createWriteStream("./public/" + fname);
 		db.collection('tweets').find({}).toArray(function(err, docs) {
-			var tweets = [];
 			if (err) {
 				console.log(err);
 			} else {
-				tweets = docs.map(function(tweet) {
-					return { tweet: [
-						{ _attr: {
-							id: tweet.id,
-							user_id: tweet.user.id,
-							created_at: tweet.created_at
-						} },
-						tweet.text
-					] };
-				});
+				var conv = twitterExport[req.body.format];
+				if (conv) {
+					conv.start(file);
+					for (var i = 0; i < docs.length; ++i) {
+						conv.data(file, docs[i], (i == 0));
+					}
+					conv.end(file, !err);
+				} else err = true;
 			}
-			file.write(xml({tweets: tweets}, {
-				declaration: true,
-				indent: '\t'
-			}));
+			
 			var status = 'success';
 			if (exists) status = 'overwrite';
 			if (err) status = 'error';
