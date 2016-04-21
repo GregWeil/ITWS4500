@@ -69,9 +69,9 @@
 			<div ng-show="exportStatus == 'input'">
 				<br/>
 				<div class="input-group">
-					<input type="text" ng-model="exportName" ng-disabled="waiting" class="form-control" />
+					<input type="text" ng-model="exportName" placeholder="file name" ng-disabled="waiting" class="form-control" />
 					<span class="input-group-btn">
-						<button type="button" ng-click="dbExport()" class="btn btn-default" ng-disabled="waiting">Export database</button>
+						<button type="button" ng-click="dbExport()" class="btn btn-default" ng-disabled="waiting">Export as {{exportFormat}}</button>
 					</div>
 				</div>
 			</div>
@@ -80,15 +80,15 @@
 		<div>
 			<br/>
 			<div ng-show="exportStatus == 'success'" class="alert alert-success" role="alert">
-				<strong>Success!</strong> Exported tweets to file <a ng-href="{{exportData}}" target="_blank">here</a>
+				<strong>Success!</strong> Exported tweets to {{exportFormat}} file <a ng-href="{{exportData}}" target="_blank">here</a>
 				<button ng-click="exportStatus=''" type="button" class="close" aria-label="Close"><span aria-hidden="true">×</span></button>
 			</div>
 			<div ng-show="exportStatus == 'overwrite'" class="alert alert-info" role="alert">
-				<strong>Success!</strong> Exported tweets over existing file <a ng-href="{{exportData}}" target="_blank">here</a>
+				<strong>Success!</strong> Exported tweets over existing {{exportFormat}} file <a ng-href="{{exportData}}" target="_blank">here</a>
 				<button ng-click="exportStatus=''" type="button" class="close" aria-label="Close"><span aria-hidden="true">×</span></button>
 			</div>
 			<div ng-show="exportStatus == 'error'" class="alert alert-danger" role="alert">
-				<strong>Error!</strong> Failed to export tweets
+				<strong>Error!</strong> Failed to export tweets as {{exportFormat}}
 				<button ng-click="exportStatus=''" type="button" class="close" aria-label="Close"><span aria-hidden="true">×</span></button>
 			</div>
 		</div>
