@@ -61,6 +61,8 @@ app.post('/export', function(req, res) {
 	
 	if (req.body.format == 'csv') {
 		twitter.queryAPI(query, count, file, twitterExport.csv, done);
+	} else if (req.body.format == 'xml') {
+		twitter.queryAPI(query, count, file, twitterExport.xml, done);
 	} else {
 		twitter.queryAPI(query, count, file, twitterExport.json, done);
 	}

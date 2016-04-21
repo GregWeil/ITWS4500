@@ -1,7 +1,8 @@
-/// Conversion functions to use with twitterStream
+/// Conversion functions for use with twitterStream
+
+var xml = require('xml');
 
 // Full JSON stream
-
 module.exports.full = {
 	start: function(stream) {
 		stream.write("[");
@@ -16,8 +17,7 @@ module.exports.full = {
 	}
 };
 
-// Convert to CSV
-
+// Stream to CSV
 module.exports.csv = {
 	start: function(stream) {
 		stream.write('"id","text","created_at",');
@@ -43,8 +43,7 @@ module.exports.csv = {
 	}
 };
 
-// Condense JSON
-
+// Stream to JSON
 module.exports.json = {
 	start: function(stream) {
 		stream.write("[");
@@ -69,5 +68,33 @@ module.exports.json = {
 	end: function(stream, ok) {
 		stream.write("]");
 		stream.end();
+	}
+};
+
+//Stream to XML
+module.exports.xml = {
+	start: function(stream) {
+		stream.write('<?xml version="1.0" encoding="UTF-8"?>\n');
+		stream.write('<tweets>\n');
+	},
+	data: function(stream, data, first) {
+		stream.write('\t')
+		stream.write(xml({
+			tweet: [
+				{
+					_attr: {
+						id: data.id,
+						user_id: data.user.id,
+						user_name: data.user.name,
+						created_at: data.created_at
+					}
+				},
+				data.text
+			]
+		}));
+		stream.write('\n')
+	},
+	end: function(stream, ok) {
+		stream.write('</tweets>\n')
 	}
 };
