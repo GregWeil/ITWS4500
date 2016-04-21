@@ -9,8 +9,10 @@ var app = express()
 
 //Serve the page
 app.use(express.static('public'))
-app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/public/index.html')
+
+//Query endpoint
+app.get('/query', function(req, res) {
+    res.send(req.query)
 })
 
 //Open the server to requests
