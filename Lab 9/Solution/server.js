@@ -30,45 +30,6 @@ app.get('/query', function(req, res) {
 	twitter.queryAPI(query, count, res, twitterExport.full);
 });
 
-// API export
-app.post('/export', function(req, res) {
-	var query = twitter.queryBuild(req.body);
-	var count = req.body.count || 1;
-	
-	var fdate = new Date();
-	var fdatestr = (fdate.getUTCFullYear()+"-"+fdate.getUTCMonth()+"-"+fdate.getUTCDate());
-	var fname = ("out/out-"+fdatestr+"&count="+count);
-	if ('track' in query) fname += ("&track="+query.track);
-	if (req.body.format) fname += ("." + req.body.format);
-	
-	var exists = true;
-	try {
-		fs.accessSync("./public/" + fname);
-	} catch (err) {
-		exists = false;
-	}
-	var file = fs.createWriteStream("./public/" + fname);
-	
-	var done = function(ok) {
-		var status = 'success';
-		if (exists) status = 'overwrite';
-		if (!ok) status = 'error';
-		res.send({
-			file: fname,
-			status: status
-		});
-	};
-	
-	if (req.body.format == 'csv') {
-		twitter.queryAPI(query, count, file, twitterExport.csv, done);
-	} else if (req.body.format == 'xml') {
-		twitter.queryAPI(query, count, file, twitterExport.xml, done);
-	} else {
-		twitter.queryAPI(query, count, file, twitterExport.json, done);
-	}
-});
-
-
 // Database usage
 MongoClient.connect('mongodb://localhost:27017', function(err, db) {
 	if (err) {

@@ -57,19 +57,22 @@
 								Export <span class="caret"></span>
 							</button>
 							<ul class="dropExport dropdown-menu">
-								<li><a href="#" ng-click="exportSearch('json')">JSON</a></li>
-								<li><a href="#" ng-click="exportSearch('csv')">CSV</a></li>
-								<li><a href="#" ng-click="exportSearch('xml')">XML</a></li>
+								<li><a href="#" ng-click="exportStart('json')">JSON</a></li>
+								<li><a href="#" ng-click="exportStart('csv')">CSV</a></li>
+								<li><a href="#" ng-click="exportStart('xml')">XML</a></li>
 							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
-			<br/>
-			<div class="input-group">
-				<input type="text" ng-model="dbName" ng-disabled="waiting" class="form-control" />
-				<span class="input-group-btn">
-					<button type="button" ng-click="dbExport()" class="btn btn-default" ng-disabled="waiting">Export database</button>
+			
+			<div ng-show="exportStatus == 'input'">
+				<br/>
+				<div class="input-group">
+					<input type="text" ng-model="exportName" ng-disabled="waiting" class="form-control" />
+					<span class="input-group-btn">
+						<button type="button" ng-click="dbExport()" class="btn btn-default" ng-disabled="waiting">Export database</button>
+					</div>
 				</div>
 			</div>
 		</form>

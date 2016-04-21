@@ -28,15 +28,17 @@ function($scope, $http, $interval) {
 	$scope.count = 10;
 	$scope.query = "";
 	
-	$scope.dbName = "";
-	
 	$scope.waiting = false;
 	$scope.exportStatus = '';
+	
+	$scope.exportName = '';
+	$scope.exportFormat = '';
 	$scope.exportData = '';
 	
 	$scope.search = function () {
 		$scope.tweets = [];
 		$scope.waiting = true;
+		$scope.exportStatus = '';
 		$http.get("query", {
 			params: {
 				track: $scope.query,
@@ -49,25 +51,16 @@ function($scope, $http, $interval) {
 		});
 	};
 	
-	$scope.exportSearch = function (format) {
-		$scope.exportStatus = '';
-		$scope.waiting = true;
-		$http.post("export", {
-			track: $scope.query,
-			count: $scope.count,
-			format: format
-		}).then(function(response) {
-			$scope.exportStatus = response.data.status;
-			if ($scope.exportStatus != 'error') {
-				$scope.exportData = response.data.file;
-			}
-			$scope.waiting = false;
-		});
+	$scope.exportStart = function (format) {
+		$scope.exportName = '';
+		$scope.exportFormat = format;
+		$scope.exportStatus = 'input';
 	};
 	
 	
 	$scope.dbBuild = function () {
 		$scope.waiting = true;
+		$scope.exportStatus = '';
 		$http.post("db/build", {
 			track: $scope.query,
 			count: $scope.count,
@@ -81,6 +74,7 @@ function($scope, $http, $interval) {
 		$scope.tweets = [];
 		$scope.index = 0;
 		$scope.waiting = true;
+		$scope.exportStatus = '';
 		$http.get("db/read")
 		.then(function(response) {
 			console.log(response.data.length);
@@ -91,11 +85,10 @@ function($scope, $http, $interval) {
 	}
 	
 	$scope.dbExport = function () {
-		$scope.exportStatus = '';
 		$scope.waiting = true;
 		$http.post("db/export", {
-			name: $scope.dbName,
-			format: "xml"
+			name: $scope.exportName,
+			format: $scope.exportFormat
 		}).then(function(response) {
 			$scope.exportStatus = response.data.status;
 			if ($scope.exportStatus != 'error') {
