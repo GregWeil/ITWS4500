@@ -1,4 +1,4 @@
-Lab 7 - node.js, mongoDB and tweets
+Lab 8 - Putting it all together
 Web Science Systems Dev
 Greg Weil
 
@@ -17,18 +17,20 @@ Build a tweets database and allow it to be exported
 	GETs to /db/read get the current contents of the database
 		No parameters are supported, it just returns everything
 	POSTs to /db/export creates a file and returns a link to it
-		Send a JSON object with the parameter 'name'
-		Output is always in the XML format
+		The 'name' parameter specifies part of the output file name
+		The 'format' parameter can be either 'csv', 'json', or 'xml'
 
 /twitterStream.js
 	A utility library for interacting with the streaming API
 	Has functions for building queries and getting a specific number of tweets
 /twitterExport.js
 	Functions to pass into twitterStream to convert to different formats
-	This is mostly just cleaned up code from the previous lab
+	It's based on streaming output, so it doesn't store any intermediary data
+	Includes JSON, CSV, and XML conversion
 
 /public/feed.html
 	The layout of the page, with angular directives for tweets
+	The export file name only appears after selecting a format
 	There are also three popups to show export results
 
 /public/js/feed.js
