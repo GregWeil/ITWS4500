@@ -22,19 +22,19 @@
   <body ng-controller="TweetFeedCtrl">
 	<div class="container">
 		<div class="page-header">
-			<h1>Live Twitter Feed! <small>({{tagline}})</small></h1>
+			<h1>Twitter Feed! <small>({{tagline}})</small></h1>
 		</div>
 		
 		<form>
 			<div class="row">
-				<div class="col-xs-9">
-					<input type="text", ng-model="query" class="form-control" ng-disabled="waiting" />
+				<div class="col-xs-8">
+					<input type="text", ng-model="query" placeholder="near RPI" class="form-control" ng-disabled="waiting" />
 				</div>
-				<div class="col-xs-3">
+				<div class="col-xs-4">
 					<input type="number" ng-model="count" class="form-control" min="1" ng-disabled="waiting" />
 				</div>
 			</div>
-			
+			<br/>
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="row">
@@ -42,31 +42,31 @@
 							<button ng-click="search()" class="btnExpand btn btn-default" ng-disabled="waiting">Search</button>
 						</div>
 						<div class="col-xs-6">
-							<button type="button" class="btnExpand btn btn-default dropdown-toggle"
-									data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="waiting">
-								Export <span class="caret"></span>
-							</button>
-							<ul class="dropExport dropdown-menu">
-								<li><a href="#" ng-click="exportSearch('json')">JSON</a></li>
-								<li><a href="#" ng-click="exportSearch('csv')">CSV</a></li>
-							</ul>
+							<button type="button" ng-click="dbBuild()" class="btnExpand btn btn-default" ng-disabled="waiting">Store</button>
 						</div>
 					</div>
 				</div>
 				<div class="col-sm-6">
 					<div class="row">
 						<div class="col-xs-6">
-							<button type="button" ng-click="dbBuild()" class="btnExpand btn btn-default" ng-disabled="waiting">Build database</button>
+							<button type="button" ng-click="dbRead()" class="btnExpand btn btn-default" ng-disabled="waiting">Retrieve</button>
 						</div>
 						<div class="col-xs-6">
-							<button type="button" ng-click="dbRead()" class="btnExpand btn btn-default" ng-disabled="waiting">Read database</button>
+							<button type="button" class="btnExpand btn btn-default dropdown-toggle"
+									data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="waiting">
+								Export <span class="caret"></span>
+							</button>
+							<ul class="dropExport dropdown-menu">
+								<li><a ng-click="exportSearch('json')">JSON</a></li>
+								<li><a ng-click="exportSearch('csv')">CSV</a></li>
+							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
-			
+			<br/>
 			<div class="input-group">
-				<input type="text" ng-model="dbName" class="form-control" />
+				<input type="text" ng-model="dbName" ng-disabled="waiting" class="form-control" />
 				<span class="input-group-btn">
 					<button type="button" ng-click="dbExport()" class="btn btn-default" ng-disabled="waiting">Export database</button>
 				</div>
