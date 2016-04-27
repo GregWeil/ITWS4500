@@ -11,8 +11,10 @@ tweetFeedApp.filter('sliceWrap', function() {
 
 tweetFeedApp.controller('TweetFeedCtrl', ['$scope', '$http', '$interval',
 function($scope, $http, $interval) {
-	var taglines = ["Look at those tweets", "With MongoDB", "A finished product!"];
-	$scope.tagline = taglines[2];
+	var taglines = ["A finished product!", "With MongoDB", "Supports exporting",
+		"Look at those tweets", "Find tweets near RPI", "One stream at a time"];
+	var tagIndex = (Math.pow(Math.random(), 2) * taglines.length);
+	$scope.tagline = taglines[Math.floor(tagIndex)];
 	
 	$scope.tweets = [];
 	$scope.index = 0;
