@@ -30,7 +30,7 @@ function($scope, $http, $interval) {
 	$scope.count = 10;
 	$scope.query = "";
 	
-	$scope.waiting = '';
+	$scope.waiting = false;
 	$scope.exportStatus = '';
 	
 	$scope.exportName = '';
@@ -49,7 +49,7 @@ function($scope, $http, $interval) {
 		}).then(function(response) {
 			$scope.tweets = response.data;
 			$scope.index = 0;
-			$scope.waiting = '';
+			$scope.waiting = false;
 		});
 	};
 	
@@ -68,26 +68,26 @@ function($scope, $http, $interval) {
 			count: $scope.count,
 			clear: true
 		}).then(function(response) {
-			$scope.waiting = '';
+			$scope.waiting = false;
 		});
 	}
 	
 	$scope.dbRead = function () {
 		$scope.tweets = [];
 		$scope.index = 0;
-		$scope.waiting = 'retrieving tweets from the database';
+		$scope.waiting = true;
 		$scope.exportStatus = '';
 		$http.get("db/read")
 		.then(function(response) {
 			console.log(response.data.length);
 			$scope.tweets = response.data;
 			$scope.index = 0;
-			$scope.waiting = '';
+			$scope.waiting = false;
 		});
 	}
 	
 	$scope.dbExport = function () {
-		$scope.waiting = 'exporting tweets from the database';
+		$scope.waiting = true;
 		$http.post("db/export", {
 			name: $scope.exportName,
 			format: $scope.exportFormat
@@ -96,7 +96,7 @@ function($scope, $http, $interval) {
 			if ($scope.exportStatus != 'error') {
 				$scope.exportData = response.data.file;
 			}
-			$scope.waiting = '';
+			$scope.waiting = false;
 		});
 	}
 }]);
