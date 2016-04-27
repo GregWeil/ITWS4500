@@ -30,7 +30,7 @@ function($scope, $http, $interval) {
 	$scope.count = 10;
 	$scope.query = "";
 	
-	$scope.waiting = false;
+	$scope.waiting = '';
 	$scope.exportStatus = '';
 	
 	$scope.exportName = '';
@@ -39,7 +39,7 @@ function($scope, $http, $interval) {
 	
 	$scope.search = function () {
 		$scope.tweets = [];
-		$scope.waiting = true;
+		$scope.waiting = 'retrieving tweets directly from Twitter';
 		$scope.exportStatus = '';
 		$http.get("query", {
 			params: {
@@ -49,7 +49,7 @@ function($scope, $http, $interval) {
 		}).then(function(response) {
 			$scope.tweets = response.data;
 			$scope.index = 0;
-			$scope.waiting = false;
+			$scope.waiting = '';
 		});
 	};
 	
@@ -61,33 +61,33 @@ function($scope, $http, $interval) {
 	
 	
 	$scope.dbBuild = function () {
-		$scope.waiting = true;
+		$scope.waiting = 'populating the database with tweets';
 		$scope.exportStatus = '';
 		$http.post("db/build", {
 			track: $scope.query,
 			count: $scope.count,
 			clear: true
 		}).then(function(response) {
-			$scope.waiting = false;
+			$scope.waiting = '';
 		});
 	}
 	
 	$scope.dbRead = function () {
 		$scope.tweets = [];
 		$scope.index = 0;
-		$scope.waiting = true;
+		$scope.waiting = 'retrieving tweets from the database';
 		$scope.exportStatus = '';
 		$http.get("db/read")
 		.then(function(response) {
 			console.log(response.data.length);
 			$scope.tweets = response.data;
 			$scope.index = 0;
-			$scope.waiting = false;
+			$scope.waiting = '';
 		});
 	}
 	
 	$scope.dbExport = function () {
-		$scope.waiting = true;
+		$scope.waiting = 'exporting tweets from the database';
 		$http.post("db/export", {
 			name: $scope.exportName,
 			format: $scope.exportFormat
@@ -96,7 +96,7 @@ function($scope, $http, $interval) {
 			if ($scope.exportStatus != 'error') {
 				$scope.exportData = response.data.file;
 			}
-			$scope.waiting = false;
+			$scope.waiting = '';
 		});
 	}
 }]);
