@@ -10,6 +10,8 @@ var config = {
 };
 var client = new Twitter(config);
 
+var endStream = null;
+
 module.exports.queryBuild = function(req) {
 	var query = {};
 	if (req.track) query['track'] = req.track;
@@ -21,19 +23,30 @@ module.exports.queryBuild = function(req) {
 }
 
 module.exports.queryAPI = function(query, count, output, handler, done) {
+	if (endStream) {
+		console.log("cancel request");
+		endStream(false);
+	}
+	
 	console.log("requested " + count);
 	client.stream("statuses/filter", query, function(stream) {
 		if (handler.start) handler.start(output);
 		var first = true;
+		
+		//Close the stream
+		endStream = function(ok) {
+			endStream = null;
+			stream.destroy( );
+			if (handler.end) handler.end(output, ok);
+			if (done) done(ok);
+		}
 		
 		//Receive a tweet
 		stream.on('data', function(tweet) {
 			handler.data(output, tweet, first);
 			first = false;
 			if (--count <= 0 ) {
-				if (handler.end) handler.end(output, true);
-				if (done) done(true);
-				stream.destroy( );
+				endStream(true);
 				console.log("done");
 			} else {
 				console.log(count + " remaining");
@@ -42,9 +55,7 @@ module.exports.queryAPI = function(query, count, output, handler, done) {
 		
 		//Error, Close the stream and close out the response
 		stream.on('error', function(error) {
-			if (handler.end) handler.end(output, false);
-			if (done) done(false);
-			stream.destroy();
+			endStream(false);
 			console.log(error);
 		});
 	});
