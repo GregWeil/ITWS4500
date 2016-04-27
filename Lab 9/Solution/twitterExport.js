@@ -83,10 +83,17 @@ module.exports.xml = {
 			tweet: [
 				{
 					_attr: {
-						id: data.id,
-						user_id: data.user.id,
-						user_name: data.user.name,
-						created_at: data.created_at
+						id: data.id, created_at: data.created_at,
+						user_id: data.user.id, user_name: data.user.name,
+						user_screen_name: data.user.screen_name,
+						user_location: data.user.location,
+						user_followers_count: data.user.followers_count,
+						user_friends_count: data.user.friends_count,
+						user_created_at: data.user.created_at,
+						user_time_zone: data.user.time_zone,
+						user_profile_background_color: data.user.profile_background_color,
+						user_profile_image_url: data.user.profile_image_url,
+						geo: data.geo, coordinates: data.coordinates, place: data.place
 					}
 				},
 				data.text
