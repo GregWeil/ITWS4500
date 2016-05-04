@@ -34,15 +34,15 @@
       </div>
       
       <div>
-        <h2>Hashtags <small ng-if="hashtags.hidden">{{hashtags.hidden}} not shown</small></h2>
+        <h2>Hashtag Usage <small ng-if="hashtags.hidden">{{hashtags.hidden}} not shown</small></h2>
         <canvas ng-if="hashtags.count" class="chart chart-bar" chart-data="hashtags.data"
           chart-labels="hashtags.labels" chart-options="hashtags.options"></canvas>
         <span ng-if="!hashtags.count">No hashtags found</span>
       </div>
       
       <div>
-        <h2>Languages</h2>
-        <canvas ng-if="languages.count" class="chart chart-doughnut"
+        <h2>Average Followers by Language</h2>
+        <canvas ng-if="languages.count" class="chart chart-bar"
           chart-data="languages.data" chart-labels="languages.labels"></canvas>
         <span ng-if="!languages.count">No statuses found</span>
       </div>

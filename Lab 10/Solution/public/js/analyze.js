@@ -137,21 +137,42 @@ tweetAnalyzeApp.controller('tweetAnalyzeCtrl',
 		$scope.scanLanguages = function() {
 			var chart = $scope.languages;
 			
-			var langs = {};
+			var userLanguages = {};
+			var userFollowers = {};
 			for (var i = 0; i < $scope.tweets.length; ++i) {
-				var tweet = $scope.tweets[i];
-				if (!tweet.lang) continue;
-				if (!langs[tweet.lang]) langs[tweet.lang] = 0;
-				langs[tweet.lang] += 1;
+				var user = $scope.tweets[i].user;
+				if (!user) continue;
+				userLanguages[user.id] = user.lang;
+				userFollowers[user.id] = user.followers_count;
 			}
 			
-			chart.labels = Object.keys(langs).sort(function(a, b) {
-				return (langs[b] - langs[a]);
+			var users = Object.keys(userFollowers);
+			var languageUsers = {};
+			var languageFollowers = {};
+			for (var i = 0; i < users.length; ++i) {
+				var userLanguage = userLanguages[users[i]];
+				if (!languageUsers[userLanguage]) {
+					languageUsers[userLanguage] = 0;
+					languageFollowers[userLanguage] = 0;
+				}
+				languageUsers[userLanguage] += 1;
+				languageFollowers[userLanguage] += userFollowers[users[i]];
+			}
+			
+			var languages = Object.keys(languageFollowers);
+			var followers = {};
+			for (var i = 0; i < languages.length; ++i) {
+				var lang = languages[i];
+				followers[lang] = (languageFollowers[lang] / languageUsers[lang]);
+			}
+			
+			chart.labels = languages.sort(function(a, b) {
+				return (followers[b] - followers[a]);
 			});
 			chart.data = chart.labels.map(function(lang) {
-				return langs[lang];
+				return followers[lang];
 			});
-			chart.count = chart.data.length;
+			chart.count = chart.labels.length;
 		};
 		
 		$scope.reload = function() {
