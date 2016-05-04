@@ -130,8 +130,18 @@ tweetAnalyzeApp.controller('tweetAnalyzeCtrl',
 		
 		$scope.languages = {
 			count: 0,
+			hidden: 0,
 			labels: [],
-			data: []
+			data: [],
+			options: {
+				scales: {
+					yAxes: [{
+						ticks: {
+							beginAtZero: true
+						}
+					}]
+				}
+			}
 		};
 		
 		$scope.scanLanguages = function() {
@@ -173,12 +183,18 @@ tweetAnalyzeApp.controller('tweetAnalyzeCtrl',
 				return followers[lang];
 			});
 			chart.count = chart.labels.length;
+			
+			var lengthMax = 15;
+			chart.hidden = Math.max(chart.data.length - lengthMax, 0);
+			if (chart.labels.length > lengthMax) {
+				chart.labels.length = lengthMax;
+				chart.data.length = lengthMax;
+			}
 		};
 		
 		$scope.reload = function() {
 			$http.get("db/read").then(function(response) {
 				$scope.tweets = response.data;
-				console.log($scope.tweets[0]);
 				
 				$scope.scanHashtags();
 				$scope.scanLanguages();

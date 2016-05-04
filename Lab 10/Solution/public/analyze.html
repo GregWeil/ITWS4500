@@ -41,9 +41,9 @@
       </div>
       
       <div>
-        <h2>Average Followers by Language</h2>
-        <canvas ng-if="languages.count" class="chart chart-bar"
-          chart-data="languages.data" chart-labels="languages.labels"></canvas>
+        <h2>Average Followers by Language <small ng-if="languages.hidden">{{languages.hidden}} not shown</small></h2>
+        <canvas ng-if="languages.count" class="chart chart-bar" chart-data="languages.data"
+          chart-labels="languages.labels" chart-options="languages.options"></canvas>
         <span ng-if="!languages.count">No statuses found</span>
       </div>
       
