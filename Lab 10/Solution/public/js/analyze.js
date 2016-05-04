@@ -10,6 +10,7 @@ tweetAnalyzeApp.controller('tweetAnalyzeCtrl',
 		
 		$scope.hashtags = {
 			count: 0,
+			hidden: 0,
 			labels: [],
 			data: [],
 			options: {
@@ -36,7 +37,6 @@ tweetAnalyzeApp.controller('tweetAnalyzeCtrl',
 				}
 			}
 			
-			chart.count = Object.keys(tags).length;
 			chart.labels = Object.keys(tags).sort(function(a, b) {
 				return (tags[b] - tags[a]);
 			});
@@ -46,14 +46,12 @@ tweetAnalyzeApp.controller('tweetAnalyzeCtrl',
 			chart.labels = chart.labels.map(function(tag) {
 				return ('#' + tag);
 			})
+			chart.count = chart.data.length;
 			
-			var lengthMax = 20;
+			var lengthMax = 24;
+			chart.hidden = Math.max(chart.data.length - lengthMax, 0);
 			if (chart.labels.length > lengthMax) {
 				chart.labels.length = lengthMax;
-				chart.labels[lengthMax - 1] = "Other";
-				chart.data[lengthMax - 1] = chart.data.reduce(function(aggregate, value, index) {
-					return (index >= lengthMax-1) ? (value + aggregate) : aggregate;
-				}, 0);
 				chart.data.length = lengthMax;
 			}
 		};
