@@ -9,37 +9,53 @@ tweetAnalyzeApp.controller('tweetAnalyzeCtrl',
 		$scope.tweets = [];
 		
 		$scope.hashtags = {
-			labels: ["Red", "Green", "Blue"],
-			data: [2, 3, 1]
-		};
-		
-		$scope.options = {
-			scales: {
-				yAxes: [{
-					ticks: {
-						beginAtZero: true
-					}
-				}]
+			count: 0,
+			labels: [],
+			data: [],
+			options: {
+				scales: {
+					yAxes: [{
+						ticks: {
+							beginAtZero: true
+						}
+					}]
+				}
 			}
 		};
 		
 		$scope.scanHashtags = function() {
+			var chart = $scope.hashtags;
+			
 			var tags = {}
 			for (var i = 0; i < $scope.tweets.length; ++i) {
 				var tweet = $scope.tweets[i];
 				for (var j = 0; j < tweet.entities.hashtags.length; ++j) {
-					var hashtag = tweet.entities.hashtags[j].text;
+					var hashtag = tweet.entities.hashtags[j].text.toLowerCase();
 					if (!tags[hashtag]) tags[hashtag] = 0;
 					tags[hashtag] += 1;
 				}
 			}
 			
-			$scope.hashtags.labels = Object.keys(tags).sort(function(a, b) {
+			chart.count = Object.keys(tags).length;
+			chart.labels = Object.keys(tags).sort(function(a, b) {
 				return (tags[b] - tags[a]);
 			});
-			$scope.hashtags.data = $scope.hashtags.labels.map(function(tag) {
+			chart.data = chart.labels.map(function(tag) {
 				return tags[tag];
 			});
+			chart.labels = chart.labels.map(function(tag) {
+				return ('#' + tag);
+			})
+			
+			var lengthMax = 20;
+			if (chart.labels.length > lengthMax) {
+				chart.labels.length = lengthMax;
+				chart.labels[lengthMax - 1] = "Other";
+				chart.data[lengthMax - 1] = chart.data.reduce(function(aggregate, value, index) {
+					return (index >= lengthMax-1) ? (value + aggregate) : aggregate;
+				}, 0);
+				chart.data.length = lengthMax;
+			}
 		};
 		
 		$scope.reload = function() {
