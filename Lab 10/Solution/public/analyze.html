@@ -17,6 +17,8 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    
+    <link href="https://cdn.jsdelivr.net/angular.chartjs/latest/angular-chart.css" rel="stylesheet">
   </head>
   <body ng-controller="tweetAnalyzeCtrl">
     <div class="container">
@@ -30,6 +32,11 @@
         </span>
         <span ng-if="!tweets.length">No tweets found</span>
       </div>
+      
+      <div>
+        <h2>Hashtags</h2>
+        <canvas class="chart chart-bar" chart-data="hashtags.data" chart-labels="hashtags.labels" chart-options="options"></canvas>
+      </div>
     </div>
 
       <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -38,6 +45,9 @@
       <script src="js/bootstrap.min.js"></script>
     
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.0.0/Chart.js"></script>
+    <script src="js/angular-chart.js"></script>
+    
     <script src="js/analyze.js"></script>
   </body>
 </html>
