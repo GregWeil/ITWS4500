@@ -192,15 +192,23 @@ tweetAnalyzeApp.controller('tweetAnalyzeCtrl',
 			}
 		};
 		
+		$scope.reloadTimeout = 1;
 		$scope.reload = function() {
 			$http.get("db/read").then(function(response) {
+				var countOld = $scope.tweets.length;
+				var countNew = response.data.length;
+				$scope.reloadTimeout = Math.min(($scope.reloadTimeout * 2), 8);
+				if (countNew != countOld) {
+					$scope.reloadTimeout = 1;
+				}
+				
 				$scope.tweets = response.data;
 				
 				$scope.scanHashtags();
 				$scope.scanLanguages();
 				$scope.scanUserStatuses();
 				
-				$timeout($scope.reload, 1000);
+				$timeout($scope.reload, ($scope.reloadTimeout * 1000));
 			});
 		}
 		
