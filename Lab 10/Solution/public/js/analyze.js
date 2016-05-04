@@ -117,7 +117,9 @@ tweetAnalyzeApp.controller('tweetAnalyzeCtrl',
 			chart.labels = [];
 			chart.data = [];
 			for (var i = 0; i < Math.ceil(countMax / interval); ++i) {
-				chart.labels[i] = (interval * i) + ' - ' + ((interval * (i + 1)) - 1);
+				var lower = (interval * i).toLocaleString();
+				var upper = ((interval * (i + 1)) - 1).toLocaleString();
+				chart.labels[i] = (lower + ' - ' + upper);
 				chart.data[i] = Object.keys(userCount).reduce(function(aggregate, user) {
 					var value = userCount[user];
 					var inRange = ((value >= (i * interval)) && (value < (i + 1) * interval));
