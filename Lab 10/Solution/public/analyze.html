@@ -35,8 +35,16 @@
       
       <div>
         <h2>Hashtags <small ng-if="hashtags.hidden">{{hashtags.hidden}} not shown</small></h2>
-        <canvas ng-if="hashtags.count" class="chart chart-bar" chart-data="hashtags.data" chart-labels="hashtags.labels" chart-options="hashtags.options"></canvas>
+        <canvas ng-if="hashtags.count" class="chart chart-bar" chart-data="hashtags.data"
+          chart-labels="hashtags.labels" chart-options="hashtags.options"></canvas>
         <span ng-if="!hashtags.count">No hashtags found</span>
+      </div>
+      
+      <div>
+        <h2>User Status Count <small ng-if="userStatuses.count">{{userStatuses.count}} user<span ng-if="userStatuses.count != 1">s</span> shown</small></h2>
+        <canvas ng-if="userStatuses.count" class="chart chart-bar" chart-data="userStatuses.data"
+          chart-labels="userStatuses.labels" chart-options="userStatuses.options"></canvas>
+        <span ng-if="!userStatuses.count">No users found</span>
       </div>
     </div>
 
