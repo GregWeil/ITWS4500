@@ -59,6 +59,7 @@ tweetAnalyzeApp.controller('tweetAnalyzeCtrl',
 		
 		$scope.userStatuses = {
 			count: 0,
+			hidden: 0,
 			labels: [],
 			data: [],
 			options: {
@@ -81,24 +82,50 @@ tweetAnalyzeApp.controller('tweetAnalyzeCtrl',
 				if (!user) continue;
 				userCount[user.id] = user.statuses_count;
 			}
-			var count = Object.keys(userCount).map(function(user) {
-				return userCount[user];
-			});
-			var countMin = Math.min.apply(null, count);
-			var countMax = Math.max.apply(null, count);
+			chart.count = Object.keys(userCount).length;
+			chart.hidden = 0;
 			
+			var count, countMin, countMax;
+			var intervalCountMin = 15;
 			var intervalCountMax = 20;
-			var intervals = [1, 5, 10, 25, 50, 100, 250, 500,
-				1000, 2500, 5000, 10000, 100000, 1000000];
+			var intervals = [1, 2.5, 5];
 			var interval = intervals[0];
-			for (var i = 0; i < intervals.length; ++i) {
-				interval = intervals[i];
-				if (countMax / interval < intervalCountMax) {
-					break;
+			var intervalCompute = function() {
+				count = Object.keys(userCount).map(function(user) {
+					return userCount[user];
+				});
+				countMin = Math.min.apply(null, count);
+				countMax = Math.max.apply(null, count);
+				interval = null;
+				intervalScale = 1;
+				while (!interval) {
+					var intervalsScaled = intervals.map(function(value) {
+						return Math.round(value * intervalScale);
+					})
+					for (var i = 0; i < intervalsScaled.length; ++i) {
+						interval = intervalsScaled[i];
+						if ((countMax / interval) > intervalCountMax) {
+							interval = null;
+						} else {
+							break;
+						}
+					}
+					intervalScale *= 10;
 				}
+			};
+			intervalCompute();
+			while (Math.ceil(countMax / interval) < intervalCountMin) {
+				if (count.length < intervalCountMin) break;
+				var users = Object.keys(userCount);
+				for (var i = 0; i < users.length; ++i) {
+					if (userCount[users[i]] >= countMax) {
+						chart.hidden += 1;
+						delete userCount[users[i]];
+					}
+				}
+				intervalCompute();
 			}
 			
-			chart.count = Object.keys(userCount).length;
 			chart.labels = [];
 			chart.data = [];
 			for (var i = 0; i < Math.ceil(countMax / interval); ++i) {
