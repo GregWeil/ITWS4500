@@ -86,8 +86,7 @@ tweetAnalyzeApp.controller('tweetAnalyzeCtrl',
 			chart.hidden = 0;
 			
 			var count, countMin, countMax;
-			var intervalCountMin = 15;
-			var intervalCountMax = 20;
+			var intervalCountMax = 15;
 			var intervals = [1, 2.5, 5];
 			var interval = intervals[0];
 			var intervalCompute = function() {
@@ -114,17 +113,6 @@ tweetAnalyzeApp.controller('tweetAnalyzeCtrl',
 				}
 			};
 			intervalCompute();
-			while (Math.ceil(countMax / interval) < intervalCountMin) {
-				if (count.length < intervalCountMin) break;
-				var users = Object.keys(userCount);
-				for (var i = 0; i < users.length; ++i) {
-					if (userCount[users[i]] >= countMax) {
-						chart.hidden += 1;
-						delete userCount[users[i]];
-					}
-				}
-				intervalCompute();
-			}
 			
 			chart.labels = [];
 			chart.data = [];

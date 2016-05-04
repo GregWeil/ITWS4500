@@ -41,7 +41,7 @@
       </div>
       
       <div>
-        <h2>User Statuses <small ng-if="userStatuses.hidden">{{userStatuses.hidden}} {{userStatuses.hidden != 1 ? 'users have' : 'user has'}} too many tweets</small></h2>
+        <h2>User Status Counts <small ng-if="userStatuses.hidden">{{userStatuses.hidden}} {{userStatuses.hidden != 1 ? 'users have' : 'user has'}} too many tweets</small></h2>
         <canvas ng-if="userStatuses.count" class="chart chart-bar" chart-data="userStatuses.data"
           chart-labels="userStatuses.labels" chart-options="userStatuses.options"></canvas>
         <span ng-if="!userStatuses.count">No users found</span>
