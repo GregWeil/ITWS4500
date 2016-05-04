@@ -41,6 +41,13 @@
       </div>
       
       <div>
+        <h2>Languages</h2>
+        <canvas ng-if="languages.count" class="chart chart-doughnut"
+          chart-data="languages.data" chart-labels="languages.labels"></canvas>
+        <span ng-if="!languages.count">No statuses found</span>
+      </div>
+      
+      <div>
         <h2>User Status Counts <small ng-if="userStatuses.hidden">{{userStatuses.hidden}} {{userStatuses.hidden != 1 ? 'users have' : 'user has'}} too many tweets</small></h2>
         <canvas ng-if="userStatuses.count" class="chart chart-bar" chart-data="userStatuses.data"
           chart-labels="userStatuses.labels" chart-options="userStatuses.options"></canvas>

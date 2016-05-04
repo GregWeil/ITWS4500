@@ -128,12 +128,39 @@ tweetAnalyzeApp.controller('tweetAnalyzeCtrl',
 			}
 		};
 		
+		$scope.languages = {
+			count: 0,
+			labels: [],
+			data: []
+		};
+		
+		$scope.scanLanguages = function() {
+			var chart = $scope.languages;
+			
+			var langs = {};
+			for (var i = 0; i < $scope.tweets.length; ++i) {
+				var tweet = $scope.tweets[i];
+				if (!tweet.lang) continue;
+				if (!langs[tweet.lang]) langs[tweet.lang] = 0;
+				langs[tweet.lang] += 1;
+			}
+			
+			chart.labels = Object.keys(langs).sort(function(a, b) {
+				return (langs[b] - langs[a]);
+			});
+			chart.data = chart.labels.map(function(lang) {
+				return langs[lang];
+			});
+			chart.count = chart.data.length;
+		};
+		
 		$scope.reload = function() {
 			$http.get("db/read").then(function(response) {
 				$scope.tweets = response.data;
 				console.log($scope.tweets[0]);
 				
 				$scope.scanHashtags();
+				$scope.scanLanguages();
 				$scope.scanUserStatuses();
 				
 				$timeout($scope.reload, 1000);
