@@ -34,9 +34,7 @@
       </div>
       
       <div>
-        <h2>Hashtags
-          <small ng-if="hashtags.hidden">{{hashtags.hidden}} hashtag<span ng-if="hashtags.hidden != 0">s</span> not shown</small>
-        </h2>
+        <h2>Hashtags <small ng-if="hashtags.hidden">{{hashtags.hidden}} not shown</small></h2>
         <canvas class="chart chart-bar" chart-data="hashtags.data" chart-labels="hashtags.labels" chart-options="hashtags.options"></canvas>
       </div>
     </div>

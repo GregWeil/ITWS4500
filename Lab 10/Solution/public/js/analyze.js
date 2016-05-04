@@ -48,7 +48,7 @@ tweetAnalyzeApp.controller('tweetAnalyzeCtrl',
 			})
 			chart.count = chart.data.length;
 			
-			var lengthMax = 24;
+			var lengthMax = 20;
 			chart.hidden = Math.max(chart.data.length - lengthMax, 0);
 			if (chart.labels.length > lengthMax) {
 				chart.labels.length = lengthMax;
