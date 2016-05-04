@@ -35,7 +35,8 @@
       
       <div>
         <h2>Hashtags <small ng-if="hashtags.hidden">{{hashtags.hidden}} not shown</small></h2>
-        <canvas class="chart chart-bar" chart-data="hashtags.data" chart-labels="hashtags.labels" chart-options="hashtags.options"></canvas>
+        <canvas ng-if="hashtags.count" class="chart chart-bar" chart-data="hashtags.data" chart-labels="hashtags.labels" chart-options="hashtags.options"></canvas>
+        <span ng-if="!hashtags.count">No hashtags found</span>
       </div>
     </div>
 
