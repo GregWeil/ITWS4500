@@ -53,8 +53,8 @@
 							<button type="button" ng-click="dbRead()" class="btnExpand btn btn-default"
 								ng-disabled="waiting && (waiting != 'store')">Retrieve</button>
 						</div>
-						<div class="col-xs-6">
-							<button type="button" class="btnExpand btn btn-default dropdown-toggle"
+						<div class="col-xs-6 btnMultiple">
+							<button type="button" class="btnExpandLeft btnExpandHalf btn btn-default dropdown-toggle"
 									data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
 									ng-disabled="waiting && (waiting != 'store')">
 								Export <span class="caret"></span>
@@ -64,6 +64,10 @@
 								<li><a href="#" ng-click="exportStart('csv')">CSV</a></li>
 								<li><a href="#" ng-click="exportStart('xml')">XML</a></li>
 							</ul>
+							<a href="analyze.html">
+								<button type="button" class="btnExpandRight btnExpandHalf btn btn-default"
+									ng-disabled="waiting && (waiting != 'store')">Analyze</button>
+							</a>
 						</div>
 					</div>
 				</div>

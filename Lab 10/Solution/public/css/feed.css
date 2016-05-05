@@ -1,7 +1,25 @@
 /* feed.css */
 
-.btnExpand {
+button.btnExpand {
 	width: 100%;
+}
+
+div.btnMultiple {
+	white-space: nowrap;
+	position: relative;
+}
+
+button.btnExpandHalf {
+	position: absolute;
+	width: 40%;
+}
+
+button.btnExpandLeft {
+	left: 15px;
+}
+
+button.btnExpandRight {
+	right: 15px;
 }
 
 .dropExport {
