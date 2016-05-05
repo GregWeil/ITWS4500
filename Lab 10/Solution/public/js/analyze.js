@@ -85,6 +85,14 @@ tweetAnalyzeApp.controller('tweetAnalyzeCtrl',
 			chart.count = Object.keys(userCount).length;
 			chart.hidden = 0;
 			
+			var countInRange = function(lower, upper) {
+				return Object.keys(userCount).reduce(function(aggregate, user) {
+					var value = userCount[user];
+					var inRange = ((value >= lower) && (value < upper));
+					return inRange ? (aggregate + 1) : aggregate;
+				}, 0);
+			};
+			
 			var count, countMin, countMax;
 			var intervalCountMax = 15;
 			var intervals = [1, 2.5, 5];
@@ -112,7 +120,29 @@ tweetAnalyzeApp.controller('tweetAnalyzeCtrl',
 					intervalScale *= 10;
 				}
 			};
+			
 			intervalCompute();
+			var intervalProportionMax = function() {
+				var counts = [];
+				var total = 0;
+				for (var i = 0; i < Math.ceil(countMax / interval); ++i) {
+					counts[i] = countInRange(i*interval, (i+1)*interval);
+					total += counts[i];
+				}
+				return (Math.max.apply(null, counts) / total);
+			}
+			while (intervalProportionMax() > 0.5) {
+				var users = Object.keys(userCount);
+				if (users.length <= 25) break;
+				var intervalMaxIndex = Math.floor(countMax / interval);
+				for (var i = 0; i < users.length; ++i) {
+					if (userCount[users[i]] >= (intervalMaxIndex * interval)) {
+						delete userCount[users[i]];
+						chart.hidden += 1;
+					}
+				}
+				intervalCompute();
+			}
 			
 			chart.labels = [];
 			chart.data = [];
@@ -120,11 +150,7 @@ tweetAnalyzeApp.controller('tweetAnalyzeCtrl',
 				var lower = (interval * i).toLocaleString();
 				var upper = ((interval * (i + 1)) - 1).toLocaleString();
 				chart.labels[i] = (lower + ' - ' + upper);
-				chart.data[i] = Object.keys(userCount).reduce(function(aggregate, user) {
-					var value = userCount[user];
-					var inRange = ((value >= (i * interval)) && (value < (i + 1) * interval));
-					return inRange ? (aggregate + 1) : aggregate;
-				}, 0);
+				chart.data[i] = countInRange(i*interval, (i+1)*interval);
 			}
 		};
 		
